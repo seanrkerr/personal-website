@@ -12,4 +12,4 @@ Pretty simple. Take a look around.
 
 ## License
 
-unlicensed
+un licensed
