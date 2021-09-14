@@ -1,17 +1,31 @@
 
 build: clean ## Compile and package the code
-	npx next build
+	yarn run next build
 
-dev:
-	npx next dev
+dev: ## start next in dev mode
+	yarn run next dev
+
+start: ## start next
+	yarn run next start
 
 clean: ## Clean up the project artefacts
 	rm -rf .next
 
 lint: ## Lint the code
-	npx next lint
+	yarn run next lint
 
 test: ## Run unit tests
-	$(eval TABLE_NAME := $(LOCAL_TABLE_NAME))
 	npx jest
+
+test-ui-open: ## open cypress
+	yarn run cypress open
+
+test-ui-run: ## run cypress under electron
+	ELECTRON_ENABLE_LOGGING=true \
+	DEBUG=cypress:electron \
+		npx cypress run
+
+install: ## install packages
+	yarn install
+
 

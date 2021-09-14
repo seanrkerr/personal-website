@@ -8,6 +8,7 @@
     "node-fetch": "^3.0.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "wait-on": "^6.0.0",
     "zod": "^3.8.2"
   },
   "scripts": {
@@ -15,7 +16,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "npx jest --collectCoverage"
+    "test": "npx jest --collectCoverage",
+    "test-ui-run": "ELECTRON_ENABLE_LOGGING=true DEBUG=cypress:electron npx cypress run"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.15.0",
@@ -24,6 +26,7 @@
     "@types/jest": "^27.0.1",
     "@types/react": "17.0.15",
     "autoprefixer": "^10.3.1",
+    "cypress": "^8.4.0",
     "eslint": "7.32.0",
     "eslint-config-next": "11.0.1",
     "fetch-mock": "^9.11.0",
