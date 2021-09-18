@@ -17,7 +17,7 @@ import Layout from "../components/Layout";
 export async function getStaticProps() {
   const portfolio = new PortfolioService();
   const data = await portfolio.get(
-    "https://jsonplaceholder.typicode.com/posts?_start=0&_limit=3"
+    "https://dev-seankerr-api.seankerr.com/portfolio?start=0&limit=7"
   );
 
   return { props: data as unknown as IPortfolioResponse };
