@@ -39,15 +39,15 @@ const Header: React.FC<HeaderProps> = function ({ name }) {
 
               <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex space-x-4">
-                  <Link href="/">
-                    <Image
-                      className="mt-2"
-                      src="/logo.ed3bbad2.png"
-                      alt="Logo"
-                      width={132}
-                      height={76}
-                    />
-                  </Link>
+                  {/* <Link href="/"> */}
+                  <Image
+                    className="mt-2"
+                    src="/logo.ed3bbad2.png"
+                    alt="Logo"
+                    width={132}
+                    height={76}
+                  />
+                  {/* </Link> */}
                 </div>
                 <div className="hidden sm:block sm:ml-6">
                   <div className="flex space-x-4">

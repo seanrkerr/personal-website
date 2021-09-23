@@ -2,7 +2,9 @@ export interface IPortfolioResponse {
   data: Array<Type>;
 }
 interface Type {
-  userId: number;
-  title: string;
-  body: string;
+  id: number;
+  name: string;
+  story: string;
+  link: string;
+  image: string;
 }
