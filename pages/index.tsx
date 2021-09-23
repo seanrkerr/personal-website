@@ -15,7 +15,7 @@ import {
 import Head from "next/head";
 import Layout from "../components/Layout";
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   const portfolio = new PortfolioService();
   const data = await portfolio.get(
     "https://dev-seankerr-api.seankerr.com/portfolio?start=0&limit=3"
