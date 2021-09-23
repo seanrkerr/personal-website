@@ -61,7 +61,7 @@ export default function Home({ data }: IPortfolioResponse) {
                     <Image
                       className="mt-2"
                       src={`/${link.image}`}
-                      alt="Logo"
+                      alt={link.name}
                       width={425}
                       height={273}
                     />
