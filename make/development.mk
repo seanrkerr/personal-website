@@ -1,11 +1,18 @@
+## my preference was to use make 
 
-build: clean ## Compile and package the code
+env:
+	$(eval export LOCAL_ENDPOINT=$(LOCAL_ENDPOINT))
+	$(eval export ENDPOINT=$(ENDPOINT))
+	$(eval export NODE_ENV=$(NODE_ENV))
+	echo $(NODE_ENV)
+
+build: env clean env ## Compile and package the code
 	yarn run next build
 
-dev: ## start next in dev mode
+dev: env ## start next in dev mode
 	yarn run next dev
 
-start: ## start next
+start: env ## start next
 	yarn run next start
 
 clean: ## Clean up the project artefacts

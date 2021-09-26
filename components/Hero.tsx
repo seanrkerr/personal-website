@@ -1,10 +1,6 @@
 import Image from "next/image";
 
-type HeroProps = {
-  imageName: string;
-};
-
-const Hero: React.FC<HeroProps> = function () {
+const Hero: React.FC = function () {
   return (
     <div className="relative md:pb-2 sm:pb-2 bg-gray-800">
       <div className="absolute inset-0">

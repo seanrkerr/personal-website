@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { InferGetStaticPropsType } from "next";
 import Image from "next/image";
 import { AppProps } from "next/app";
+import configuration from "../common/configuration";
 import { IPortfolioResponse } from "../interfaces/IPortfolioResponse";
 import PortfolioService from "../services/PortfolioService";
 
@@ -17,8 +18,9 @@ import Layout from "../components/Layout";
 
 export async function getStaticProps() {
   const portfolio = new PortfolioService();
+
   const data = await portfolio.get(
-    "https://dev-seankerr-api.seankerr.com/portfolio?start=0&limit=3"
+    `${configuration.api.endpoint}/portfolio?start=0&limit=3`
   );
 
   return { props: data as unknown as IPortfolioResponse };
@@ -28,7 +30,7 @@ export default function Home({ data }: IPortfolioResponse) {
   return (
     <div>
       <Head>
-        <title>Sean Kerr - Full stack developer, Sydney Australia</title>
+        <title>Sean Kerr - Full stack developer, Sydney Australia - Home</title>
         <meta
           name="description"
           content="Full stack developer, Sydney Australia"

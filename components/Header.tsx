@@ -4,15 +4,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
-import { notEmpty } from "../common/notEmpty";
+import { NotEmpty } from "../common/NotEmpty";
 
 const navigation = [
-  { name: "Link1", href: "#", current: false },
+  { name: "Portfolio", href: "/portfolio", current: false },
   { name: "Link2", href: "#", current: false },
 ];
 
 function classNames<T>(...classes: Array<T>): T {
-  return classes.filter(notEmpty).join(" ") as unknown as T;
+  return classes.filter(NotEmpty).join(" ") as unknown as T;
 }
 
 type HeaderProps = {
@@ -39,15 +39,21 @@ const Header: React.FC<HeaderProps> = function ({ name }) {
 
               <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex space-x-4">
-                  {/* <Link href="/"> */}
-                  <Image
-                    className="mt-2"
-                    src="/logo.ed3bbad2.png"
-                    alt="Logo"
-                    width={132}
-                    height={76}
-                  />
-                  {/* </Link> */}
+                  <Link
+                    href={{
+                      pathname: "/",
+                    }}
+                  >
+                    <a>
+                      <Image
+                        className="mt-2"
+                        src="/logo.ed3bbad2.png"
+                        alt="Logo"
+                        width={132}
+                        height={76}
+                      />
+                    </a>
+                  </Link>
                 </div>
                 <div className="hidden sm:block sm:ml-6">
                   <div className="flex space-x-4">

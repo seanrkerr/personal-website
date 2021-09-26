@@ -10,7 +10,7 @@ const Layout: React.FC<LocationProps> = function ({ children }) {
   return (
     <>
       <Header name="header" />
-      <Hero imageName="test" />
+      <Hero />
       <main>{children}</main>
       <Footer name="footer" />
     </>
