@@ -7,7 +7,7 @@ env:
 	echo $(NODE_ENV)
 
 build: env clean env ## Compile and package the code
-	yarn run next build
+	yarn run next build --profile
 
 dev: env ## start next in dev mode
 	yarn run next dev

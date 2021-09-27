@@ -11,6 +11,14 @@
     "wait-on": "^6.0.0",
     "zod": "^3.8.2"
   },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test": "npx jest --collectCoverage",
+    "test-ui-run": "ELECTRON_ENABLE_LOGGING=true DEBUG=cypress:electron npx cypress run"
+  },
   "devDependencies": {
     "@babel/preset-typescript": "^7.15.0",
     "@headlessui/react": "^1.4.1",

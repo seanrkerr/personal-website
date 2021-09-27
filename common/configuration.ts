@@ -4,6 +4,12 @@ export type Configuration = {
   };
 };
 
+console.log("////////", {
+  ...(process.env.NODE_ENV === "development"
+    ? { endpoint: process.env.LOCAL_ENDPOINT }
+    : { endpoint: process.env.ENDPOINT }),
+});
+
 const configuration: Configuration = {
   api: {
     ...(process.env.NODE_ENV === "development"

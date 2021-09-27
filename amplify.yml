@@ -6,17 +6,15 @@ frontend:
         - make install
     build:
       commands:
-        - make test
-        - make lint
-        - make build
+        - make build ENV=prod
   artifacts:
-    baseDirectory: .next
     files:
-      - '**/*'
+        - '**/*'
+    discard-paths: yes
+    baseDirectory: .next
   cache:
     paths:
-      - node_modules/**/*
-
+        - node_modules/**/* 
 test:
   artifacts:
     baseDirectory: cypress
@@ -29,9 +27,3 @@ test:
       commands:
         - make install
         - yarn add mocha mochawesome mochawesome-merge mochawesome-report-generator
-    test:
-      commands:
-        - npx start-test 'make dev NODE_ENV=prod' 3000 'npx cypress run --reporter mochawesome --reporter-options "reportDir=cypress/report/mochawesome-report,overwrite=false,html=false,json=true,timestamp=mmddyyyy_HHMMss"'
-    postTest:
-      commands:
-        - npx mochawesome-merge cypress/report/mochawesome-report/mochawesome*.json > cypress/report/mochawesome.json  
