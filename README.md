@@ -8,7 +8,11 @@ My need to play with Nextjs + amplify
 
 ## Getting Started
 
-Pretty simple. Take a look around.
+You can run the following command to see whats available
+
+```
+make help
+```
 
 ## License
 

@@ -1,6 +1,6 @@
 ## my preference was to use make 
 
-env:
+env: ## env vars
 	$(eval export LOCAL_ENDPOINT=$(LOCAL_ENDPOINT))
 	$(eval export ENDPOINT=$(ENDPOINT))
 	$(eval export NODE_ENV=$(NODE_ENV))
@@ -34,5 +34,3 @@ test-ui-run: ## run cypress under electron
 
 install: ## install packages
 	yarn install
-
-
