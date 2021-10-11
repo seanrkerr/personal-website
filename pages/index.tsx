@@ -20,7 +20,7 @@ export async function getStaticProps() {
   const portfolio = new PortfolioService();
 
   const data = await portfolio.get(
-    `https://dev-seankerr-api.seankerr.com/portfolio?start=0&limit=3`
+    `${configuration.api.endpoint}/portfolio?start=0&limit=3`
   );
 
   return { props: data as unknown as IPortfolioResponse };
@@ -39,7 +39,7 @@ export default function Home({ data }: IPortfolioResponse) {
       </Head>
 
       <section
-        className="-mt-32 max-w-8xl mx-auto pt-16 md:pt-26 relative z-10 pb-32 px-4 sm:px-6 lg:px-8"
+        className="-mt-32 max-w-8xl mx-auto pt-16 md:pt-26 relative z-10 md:pb-12 pb-32 px-4 sm:px-6 lg:px-8"
         aria-labelledby="contact-heading"
       >
         <h2 className="sr-only" id="contact-heading">

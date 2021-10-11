@@ -14,7 +14,7 @@ import {
 } from "@heroicons/react/outline";
 
 import Head from "next/head";
-import Layout from "../components/Layout";
+import PortfolioLayout from "../components/PortfolioLayout";
 
 // export async function getStaticProps() {
 //   const portfolio = new PortfolioService();
@@ -46,5 +46,5 @@ export default function Portfolio() {
 }
 
 Portfolio.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>;
+  return <PortfolioLayout>{page}</PortfolioLayout>;
 };
