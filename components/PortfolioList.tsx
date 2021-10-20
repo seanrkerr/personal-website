@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import configuration from "../common/configuration";
 import { Loader } from "../common/hooks/UseState";
 import { UsePrevious } from "../common/hooks/UseRef";
 import { IPortfolioResponse } from "../interfaces/IPortfolioResponse";

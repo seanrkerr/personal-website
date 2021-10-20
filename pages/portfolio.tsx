@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { InferGetStaticPropsType } from "next";
 import Image from "next/image";
 import { AppProps } from "next/app";
-import configuration from "../common/configuration";
 import { IPortfolioResponse } from "../interfaces/IPortfolioResponse";
 import { PortfolioResponse } from "../common/PortfolioResponse";
 import PortfolioService from "../services/PortfolioService";
