@@ -20,10 +20,12 @@ export async function getStaticProps() {
   const portfolio = new PortfolioService();
 
   const data = await portfolio.get(
-    `${configuration.api.endpoint}/portfolio?start=0&limit=3`
+    `${process.env.RESTURL_PORTFOLIO}/portfolio?start=0&limit=3`
   );
 
-  return { props: data as unknown as IPortfolioResponse };
+  return {
+    props: data as unknown as IPortfolioResponse,
+  };
 }
 
 export default function Home({ data }: IPortfolioResponse) {

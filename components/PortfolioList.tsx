@@ -1,18 +1,21 @@
 import React, { useState, useEffect, useRef } from "react";
-import { GetInitialState, Loader, useFetch } from "../common/hooks/UseState";
 import configuration from "../common/configuration";
+import { Loader } from "../common/hooks/UseState";
 import { UsePrevious } from "../common/hooks/UseRef";
 import { IPortfolioResponse } from "../interfaces/IPortfolioResponse";
 import PortfolioService from "../services/PortfolioService";
 import { PortfolioResponse } from "../common/PortfolioResponse";
 import { PortFolioListComponent } from "./PortfolioListComponent";
 
+type PortfolioListProps = {
+  listData: PortfolioResponse[];
+};
+
 const portfolio = new PortfolioService();
 let MAX_PAGES = false;
-console.log(`${configuration.api}`);
-const PortfolioList: React.FC = function () {
-  const { listItems, setListItems } = GetInitialState(2, 3);
 
+const PortfolioList: React.FC<PortfolioListProps> = function ({ listData }) {
+  const [listItems, setListItems] = useState<PortfolioResponse[]>(listData);
   const { isFetching, setIsFetching } = Loader();
 
   useEffect(() => {
@@ -28,7 +31,7 @@ const PortfolioList: React.FC = function () {
 
     const fetchThis = async () => {
       const result = await portfolio.get(
-        `https://dev-seankerr-api.seankerr.com/portfolio?start=3&limit=3`
+        `${process.env.RESTURL_PORTFOLIO}/portfolio?start=3&limit=3`
       );
 
       if (result.type === "failure") {
@@ -42,7 +45,10 @@ const PortfolioList: React.FC = function () {
       MAX_PAGES = true;
       setIsFetching(false);
     };
-    fetchThis();
+    setTimeout(() => {
+      fetchThis();
+    }, 2000);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFetching]);
 
   const handleScroll = () => {

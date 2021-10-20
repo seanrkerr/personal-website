@@ -3,7 +3,9 @@ import React, { useState, useEffect } from "react";
 import { InferGetStaticPropsType } from "next";
 import Image from "next/image";
 import { AppProps } from "next/app";
+import configuration from "../common/configuration";
 import { IPortfolioResponse } from "../interfaces/IPortfolioResponse";
+import { PortfolioResponse } from "../common/PortfolioResponse";
 import PortfolioService from "../services/PortfolioService";
 import PortFolioList from "../components/PortfolioList";
 
@@ -16,18 +18,19 @@ import {
 import Head from "next/head";
 import PortfolioLayout from "../components/PortfolioLayout";
 
-// export async function getStaticProps() {
-//   const portfolio = new PortfolioService();
-//   const data = await portfolio.get(
-//     "https://dev-seankerr-api.seankerr.com/portfolio?start=0&limit=3"
-//   );
+export async function getStaticProps() {
+  const portfolio = new PortfolioService();
 
-//   return { props: data as unknown as IPortfolioResponse };
-// }
+  const data = await portfolio.get(
+    `${process.env.RESTURL_PORTFOLIO}/portfolio?start=2&limit=3`
+  );
 
-//export default function Portfolio({ data }: IPortfolioResponse) {
+  return {
+    props: data as unknown as IPortfolioResponse,
+  };
+}
 
-export default function Portfolio() {
+export default function Portfolio({ data }: IPortfolioResponse) {
   return (
     <div>
       <Head>
@@ -40,7 +43,11 @@ export default function Portfolio() {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <PortFolioList />
+
+      <PortFolioList
+        // @ts-ignore
+        listData={data}
+      />
     </div>
   );
 }
