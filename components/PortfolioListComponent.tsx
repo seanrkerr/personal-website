@@ -18,12 +18,16 @@ export const PortFolioListComponent = (props: any) => {
             height={273}
           />
 
-          <a
-            href={data.link}
-            className="text-base block clear-both font-medium text-indigo-700 hover:text-indigo-600"
-          >
-            See it<span aria-hidden="true"> &rarr;</span>
-          </a>
+          {data.link === "" ? (
+            <>{""}</>
+          ) : (
+            <a
+              href={data.link}
+              className="mt-2 text-base block clear-both font-medium text-indigo-700 hover:text-indigo-600"
+            >
+              See it<span aria-hidden="true"> &rarr;</span>
+            </a>
+          )}
         </div>
       </div>
     );
