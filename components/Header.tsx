@@ -2,6 +2,7 @@
 import { Fragment } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
 import { NotEmpty } from "../common/NotEmpty";
@@ -11,15 +12,13 @@ const navigation = [
   { name: "Contact", href: "/contact", current: false },
 ];
 
-function classNames<T>(...classes: Array<T>): T {
-  return classes.filter(NotEmpty).join(" ") as unknown as T;
-}
-
 type HeaderProps = {
   name: string;
 };
 
 const Header: React.FC<HeaderProps> = function ({ name }) {
+  const router = useRouter();
+  console.log(router);
   return (
     <Disclosure as="nav" className="bg-gray-800 px-6">
       {({ open }) => (
@@ -61,12 +60,11 @@ const Header: React.FC<HeaderProps> = function ({ name }) {
                       <a
                         key={item.name}
                         href={item.href}
-                        className={classNames(
-                          item.current
-                            ? "bg-gray-900 text-white"
-                            : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                          "px-3 py-2 rounded-md text-sm font-medium mt-6"
-                        )}
+                        className={
+                          router.pathname == item.href
+                            ? "px-3 py-2 rounded-md text-sm font-medium mt-6 bg-gray-900 text-white"
+                            : "text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium mt-6"
+                        }
                         aria-current={item.current ? "page" : undefined}
                       >
                         {item.name}
@@ -84,12 +82,11 @@ const Header: React.FC<HeaderProps> = function ({ name }) {
                 <a
                   key={item.name}
                   href={item.href}
-                  className={classNames(
-                    item.current
-                      ? "bg-gray-900 text-white"
-                      : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                    "block px-3 py-2 rounded-md text-base font-medium"
-                  )}
+                  className={
+                    router.pathname == item.href
+                      ? "block px-3 py-2 rounded-md text-sm font-medium mt-6 bg-gray-900 text-white"
+                      : "block text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium mt-6"
+                  }
                   aria-current={item.current ? "page" : undefined}
                 >
                   {item.name}
