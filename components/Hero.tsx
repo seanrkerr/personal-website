@@ -18,7 +18,7 @@ const Hero: React.FC = function () {
         />
       </div>
       <div className="relative max-w-7xl mx-auto pt-16 pb-28 px-4 sm:px-6 lg:px-8">
-        <h1 className="text-4xl tracking-tight text-white md:text-5xl lg:text-6xl">
+        <h1 className="text-4xl tracking-tight text-white md:text-5xl lg:text-6xl lg:ml-2">
           Hey, I&#39;m Sean Kerr.
         </h1>
         <p className="mt-6 max-w-3xl text-xl text-gray-300">

@@ -44,7 +44,7 @@ export default function Portfolio({ data }: IPortfolioResponse) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Heading>
-        <h1 className="text-4xl tracking-tight md:text-5xl lg:text-6xl">
+        <h1 className="text-4xl tracking-tight md:text-5xl lg:text-6xl lg:ml-2">
           Portfolio
         </h1>
       </Heading>

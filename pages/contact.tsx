@@ -29,7 +29,7 @@ export default function Contact() {
       </Head>
 
       <Heading>
-        <h1 className="text-4xl tracking-tight md:text-5xl lg:text-6xl">
+        <h1 className="text-4xl tracking-tight md:text-5xl lg:text-6xl lg:ml-2">
           Contact
         </h1>
       </Heading>

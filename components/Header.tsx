@@ -18,7 +18,7 @@ type HeaderProps = {
 
 const Header: React.FC<HeaderProps> = function ({ name }) {
   const router = useRouter();
-  console.log(router);
+
   return (
     <Disclosure as="nav" className="bg-gray-800 px-6">
       {({ open }) => (
