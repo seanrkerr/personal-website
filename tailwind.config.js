@@ -4,7 +4,14 @@ module.exports = {
   purge: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
   presets: [],
   darkMode: false, // or 'media' or 'class'
+
   theme: {
+    extend: {
+      animation: {
+        bounce200: "bounce 1s infinite 200ms",
+        bounce400: "bounce 1s infinite 400ms",
+      },
+    },
     screens: {
       sm: "640px",
       md: "768px",
