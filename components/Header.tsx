@@ -6,7 +6,10 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
 import { NotEmpty } from "../common/NotEmpty";
 
-const navigation = [{ name: "Portfolio", href: "/portfolio", current: false }];
+const navigation = [
+  { name: "Portfolio", href: "/portfolio", current: false },
+  { name: "Contact", href: "/contact", current: false },
+];
 
 function classNames<T>(...classes: Array<T>): T {
   return classes.filter(NotEmpty).join(" ") as unknown as T;

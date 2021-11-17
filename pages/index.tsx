@@ -46,7 +46,7 @@ export default function Home({ data }: IPortfolioResponse) {
         <h2 className="sr-only" id="contact-heading">
           Sean Kerr - Full stack developer, Sydney Australia
         </h2>
-        <div className="grid grid-cols-1 gap-y-20 lg:grid-cols-3 lg:gap-y-0 lg:gap-x-8">
+        <div className="grid grid-cols-1 gap-y-20 lg:grid-cols-3 lg:gap-y-0 lg:gap-x-8 relative">
           {data.length > 0 ? (
             <>
               {data.map((link: any) => (
@@ -60,7 +60,7 @@ export default function Home({ data }: IPortfolioResponse) {
                     </h3>
                     <p className="mt-4 text-base text-gray-500">{link.story}</p>
                   </div>
-                  <div className="p-6 bg-gray-50 rounded-bl-2xl rounded-br-2xl md:px-8">
+                  <div className="p-6 md:bg-gray-50 rounded-bl-2xl rounded-br-2xl md:px-8 sm:bg-white-100 sm:mx-auto">
                     <Image
                       className="mt-2"
                       src={`/${link.image}`}
