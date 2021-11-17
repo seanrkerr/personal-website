@@ -12,7 +12,7 @@ export const PortFolioListComponent = (props: any) => {
           <h3 className="text-xl font-medium text-gray-900">{data.name}</h3>
           <p className="mt-4 text-base text-gray-500">{data.story}</p>
         </div>
-        <div className="p-6 bg-gray-50 rounded-bl-2xl rounded-br-2xl md:px-8">
+        <div className="p-6 md:bg-gray-50 rounded-bl-2xl rounded-br-2xl md:px-8 sm:bg-white-100 sm:mx-auto">
           <Image
             className="mt-2"
             src={`/${data.image}`}
