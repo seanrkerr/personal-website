@@ -7,6 +7,7 @@ import { IPortfolioResponse } from "../interfaces/IPortfolioResponse";
 import { PortfolioResponse } from "../common/PortfolioResponse";
 import PortfolioService from "../services/PortfolioService";
 import PortFolioList from "../components/PortfolioList";
+import Heading from "../components/Heading";
 
 import {
   NewspaperIcon,
@@ -15,7 +16,7 @@ import {
 } from "@heroicons/react/outline";
 
 import Head from "next/head";
-import Layout from "../components/Layout";
+import PortfolioLayout from "../components/PortfolioLayout";
 
 export async function getStaticProps() {
   const portfolio = new PortfolioService();
@@ -42,7 +43,11 @@ export default function Portfolio({ data }: IPortfolioResponse) {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
+      <Heading>
+        <h1 className="text-4xl tracking-tight md:text-5xl lg:text-6xl">
+          Portfolio
+        </h1>
+      </Heading>
       <PortFolioList
         // @ts-ignore
         listData={data}
@@ -52,5 +57,5 @@ export default function Portfolio({ data }: IPortfolioResponse) {
 }
 
 Portfolio.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>;
+  return <PortfolioLayout>{page}</PortfolioLayout>;
 };
