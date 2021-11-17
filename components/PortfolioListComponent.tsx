@@ -4,7 +4,10 @@ export const PortFolioListComponent = (props: any) => {
 
   const items = itemList.map(function (data: any, idx: number) {
     return (
-      <div key={idx} className="flex flex-col bg-white rounded-2xl shadow-xl">
+      <div
+        key={idx}
+        className="flex flex-col bg-white rounded-2xl shadow-xl mt-8"
+      >
         <div className="flex-1 relative pt-8 px-6 pb-8 md:px-8">
           <h3 className="text-xl font-medium text-gray-900">{data.name}</h3>
           <p className="mt-4 text-base text-gray-500">{data.story}</p>

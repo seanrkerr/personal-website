@@ -11,7 +11,10 @@ type PortfolioListProps = {
 };
 
 const portfolio = new PortfolioService();
+
 let MAX_PAGES = false;
+let portfolioStartLimit = 3;
+let pageLimit = 7; // yep I cheated here :-)
 
 const PortfolioList: React.FC<PortfolioListProps> = function ({ listData }) {
   const [listItems, setListItems] = useState<PortfolioResponse[]>(listData);
@@ -24,13 +27,14 @@ const PortfolioList: React.FC<PortfolioListProps> = function ({ listData }) {
   }, []);
 
   const prevItems = UsePrevious(listItems);
+  let previousStartLimit = UsePrevious(portfolioStartLimit);
 
   useEffect(() => {
     if (!isFetching || MAX_PAGES) return;
 
     const fetchThis = async () => {
       const result = await portfolio.get(
-        `${process.env.RESTURL_PORTFOLIO}/portfolio?start=3&limit=3`
+        `${process.env.RESTURL_PORTFOLIO}/portfolio?start=${previousStartLimit}&limit=3`
       );
 
       if (result.type === "failure") {
@@ -40,8 +44,11 @@ const PortfolioList: React.FC<PortfolioListProps> = function ({ listData }) {
       const res = result.data as PortfolioResponse;
       // @ts-ignore
       setListItems([...prevItems, ...res] as unknown as PortfolioResponse[]);
+      portfolioStartLimit += 1;
+      if (pageLimit === portfolioStartLimit) {
+        MAX_PAGES = true;
+      }
 
-      MAX_PAGES = true;
       setIsFetching(false);
     };
     setTimeout(() => {

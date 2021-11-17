@@ -7,6 +7,7 @@ const {
 module.exports = (phase) => {
   const reactStrictMode = true;
   const optimizeFonts = false;
+  const poweredByHeader = false;
   const eslint = {
     ignoreDuringBuilds: true,
   };
