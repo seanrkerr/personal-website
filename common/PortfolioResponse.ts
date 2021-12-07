@@ -2,9 +2,11 @@ import { z } from "zod";
 
 export const PortfolioResponseDecoder = z.array(
   z.object({
-    userId: z.number(),
-    title: z.string(),
-    body: z.string(),
+    id: z.number(),
+    name: z.string(),
+    story: z.string(),
+    link: z.string(),
+    image: z.string(),
   })
 );
 

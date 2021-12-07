@@ -5,22 +5,12 @@ enableFetchMocks();
 
 const expectedHappyPath = [
   {
-    userId: 1,
-    title: "eum et est occaecati",
-    body:
-      "ullam et saepe reiciendis voluptatem adipisci\n" +
-      "sit amet autem assumenda provident rerum culpa\n" +
-      "quis hic commodi nesciunt rem tenetur doloremque ipsam iure\n" +
-      "quis sunt voluptatem rerum illo velit",
-  },
-  {
-    userId: 1,
-    title: "nesciunt quas odio",
-    body:
-      "repudiandae veniam quaerat sunt sed\n" +
-      "alias aut fugiat sit autem sed est\n" +
-      "voluptatem omnis possimus esse voluptatibus quis\n " +
-      "est aut tenetur dolor neque",
+    id: 16,
+    name: "NRMA",
+    story:
+      "This was one of NRMA's first online forms. It was a massive project, new platform, and great fun to work on. It was one of the first projects that I worked on, which had an emphasis on User Experience, with customer testing and a nice fresh UI.",
+    link: "",
+    image: "nrma.2a79a145.png",
   },
 ];
 
@@ -38,6 +28,7 @@ describe("getPortfolio", () => {
     const result = await getPortfolio({ apiEndpoint: "http://somewhere.com" });
     expect(json.mock.calls.length).toBe(1);
     expect(result.type).toBe("success");
+
     expect(result).toEqual({ data: expectedHappyPath, type: "success" });
   });
 
@@ -68,10 +59,6 @@ describe("getPortfolio", () => {
     const json = jest.fn() as jest.MockedFunction<any>;
     mockFetch.mockResolvedValue({ status: 404 } as Response);
     const result = await getPortfolio({ apiEndpoint: "http://xxx" });
-
-    expect(result).toEqual({
-      error: new Error("uanble to find endpoint"),
-      type: "failure",
-    });
+    expect(result).toEqual({ type: "success", data: undefined });
   });
 });

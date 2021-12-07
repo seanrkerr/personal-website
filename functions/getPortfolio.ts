@@ -15,7 +15,7 @@ export default async function getPortfolio({
   const { ok, status } = response;
 
   if (status === 404) {
-    return { type: "failure", error: new Error("uanble to find endpoint") };
+    return { type: "success", data: undefined };
   }
 
   const body = JSON.stringify(await response.json());
@@ -36,18 +36,14 @@ export default async function getPortfolio({
     };
   }
 
-  //TODO add in, reafactor tests
-  //   const decoded = ok ? PortfolioResponseDecoder.safeParse(parsed.data) : "";
-  //   console.log("decoded---------------", decoded);
+  const decoded = ok ? PortfolioResponseDecoder.safeParse(parsed.data) : "";
 
-  //   if (!decoded.success) {
-  //     return {
-  //       type: "failure",
-  //       error: new Error("unable to decode reponse"),
-  //     };
-  //   }
-
-  //   console.log("decoded data---------------", decoded.data);
+  if (!decoded) {
+    return {
+      type: "failure",
+      error: new Error("unable to decode reponse"),
+    };
+  }
 
   return { type: "success", data: parsed.data as PortfolioResponse };
 }
