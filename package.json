@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@testing-library/react": "^12.1.2",
     "jest-fetch-mock": "^3.0.3",
     "next": "11.0.1",
     "node-fetch": "^3.0.0",

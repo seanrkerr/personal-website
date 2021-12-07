@@ -16,7 +16,7 @@ import {
 } from "@heroicons/react/outline";
 
 import Head from "next/head";
-import PortfolioLayout from "../components/PortfolioLayout";
+import Layout from "../components/Layout";
 
 export async function getStaticProps() {
   const portfolio = new PortfolioService();
@@ -43,11 +43,6 @@ export default function Portfolio({ data }: IPortfolioResponse) {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Heading>
-        <h1 className="text-4xl tracking-tight md:text-5xl lg:text-6xl lg:ml-2">
-          Portfolio
-        </h1>
-      </Heading>
       <PortFolioList
         // @ts-ignore
         listData={data}
@@ -57,5 +52,5 @@ export default function Portfolio({ data }: IPortfolioResponse) {
 }
 
 Portfolio.getLayout = function getLayout(page: ReactElement) {
-  return <PortfolioLayout>{page}</PortfolioLayout>;
+  return <Layout>{page}</Layout>;
 };
