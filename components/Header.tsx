@@ -16,28 +16,30 @@ type HeaderProps = {
   name: string;
 };
 
-const renderNavigation = () => {
-  {
-    navigation.map((item) => (
-      <a
-        key={item.name}
-        href={item.href}
-        className={
-          router.pathname == item.href
-            ? "px-3 py-2 rounded-md text-sm font-medium mt-6 bg-gray-900 text-white"
-            : "text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium mt-6"
-        }
-        aria-current={item.current ? "page" : undefined}
-      >
-        {item.name}
-      </a>
-    ));
-  }
-};
+//const router = useRouter();
+
+// TODO curry this function
+// const renderNavigation = () => {
+//   {
+//     navigation.map((item) => (
+//       <a
+//         key={item.name}
+//         href={item.href}
+//         className={
+//           router.pathname == item.href
+//             ? "px-3 py-2 rounded-md text-sm font-medium mt-6 bg-gray-900 text-white"
+//             : "text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium mt-6"
+//         }
+//         aria-current={item.current ? "page" : undefined}
+//       >
+//         {item.name}
+//       </a>
+//     ));
+//   }
+// };
 
 const Header: React.FC<HeaderProps> = function ({ name }) {
   const router = useRouter();
-
   return (
     <Disclosure as="nav" className="bg-gray-800 px-6">
       {({ open }) => (
