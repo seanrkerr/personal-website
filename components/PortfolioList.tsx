@@ -5,6 +5,7 @@ import { IPortfolioResponse } from "../interfaces/IPortfolioResponse";
 import PortfolioService from "../services/PortfolioService";
 import { PortfolioResponse } from "../common/PortfolioResponse";
 import { PortFolioListComponent } from "./PortfolioListComponent";
+import LoadingComp from "./LoadingComp";
 
 type PortfolioListProps = {
   listData: PortfolioResponse[];
@@ -72,14 +73,7 @@ const PortfolioList: React.FC<PortfolioListProps> = function ({ listData }) {
       <div className="grid grid-cols-1 gap-y-20 lg:grid-cols-3 lg:gap-y-0 lg:gap-x-8 relative -mt-32 max-w-8xl mx-auto pt-8 md:pt-26 relative z-10 md:pb-12 pb-32 px-4 sm:px-6 lg:px-8">
         <PortFolioListComponent list={listItems} />
       </div>
-      {isFetching && (
-        <div className="fixed top-0 left-0 right-0 bottom-0 w-full h-screen z-50 overflow-hidden bg-blue-100 opacity-75 flex flex-col items-center justify-center">
-          <div className="loader ease-linear rounded-full border-4 border-t-4 border-blue-600 h-12 w-12 mb-4"></div>
-          <h2 className="text-center text-blue-600 text-xl font-semibold">
-            Loading...
-          </h2>
-        </div>
-      )}
+      {isFetching && <LoadingComp />}
     </>
   );
 };

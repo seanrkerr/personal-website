@@ -1,6 +1,33 @@
 import Image from "next/image";
+import { useRouter } from "next/router";
+import { htmlDecode } from "../common/htmlDecode";
+
+const headings = [
+  {
+    id: 1,
+    path: "/",
+    heading: "Hey, I&#39;m Sean Kerr.",
+    subHeading: "I&#39;m a full stack developer from Sydney, Australia.",
+    subHeading2:
+      "I&#39;ve been building websites for as long as I can remember.",
+  },
+  {
+    id: 2,
+    path: "/portfolio",
+    heading: "Portfolio",
+    subHeading: "Some of my work, design systems, apps and more",
+  },
+  {
+    id: 3,
+    path: "/contact",
+    heading: "Contact",
+    subHeading: "Say hire or even hire me",
+  },
+];
 
 const Hero: React.FC = function () {
+  const router = useRouter();
+  console.log(router);
   return (
     <div className="relative md:pb-2 sm:pb-2 bg-gray-800">
       <div className="absolute inset-0">
@@ -18,15 +45,34 @@ const Hero: React.FC = function () {
         />
       </div>
       <div className="relative max-w-7xl mx-auto pt-16 pb-28 px-4 sm:px-6 lg:px-8">
-        <h1 className="text-4xl tracking-tight text-white md:text-5xl lg:text-6xl lg:ml-2">
-          Hey, I&#39;m Sean Kerr.
-        </h1>
-        <p className="mt-6 max-w-3xl text-xl text-gray-300">
-          I&#39;m a full stack developer from Sydney, Australia.
-        </p>
-        <p className="mt-2 max-w-3xl text-xl text-gray-300">
-          I&#39;ve been building websites for as long as I can remember.
-        </p>
+        {headings
+          .filter((heading) => heading.path === router.pathname)
+          .map((headingType, idx) => (
+            <>
+              <h1
+                dangerouslySetInnerHTML={{ __html: headingType.heading }}
+                key={idx}
+                className="text-4xl tracking-tight text-white md:text-5xl lg:text-6xl lg:ml-2"
+              ></h1>
+              {headingType.subHeading && (
+                <p
+                  dangerouslySetInnerHTML={{
+                    __html: headingType.subHeading || "",
+                  }}
+                  className="mt-6 max-w-3xl text-xl text-gray-300"
+                ></p>
+              )}
+
+              {headingType.subHeading2 && (
+                <p
+                  dangerouslySetInnerHTML={{
+                    __html: headingType.subHeading2 || "",
+                  }}
+                  className="mt-6 max-w-3xl text-xl text-gray-300"
+                ></p>
+              )}
+            </>
+          ))}
       </div>
     </div>
   );
