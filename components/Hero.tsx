@@ -21,7 +21,7 @@ const headings = [
     id: 3,
     path: "/contact",
     heading: "Contact",
-    subHeading: "Say hire or even hire me",
+    subHeading: "Say hi or even hire me",
   },
 ];
 
