@@ -27,7 +27,7 @@ const headings = [
 
 const Hero: React.FC = function () {
   const router = useRouter();
-  console.log(router);
+
   return (
     <div className="relative md:pb-2 sm:pb-2 bg-gray-800">
       <div className="absolute inset-0">

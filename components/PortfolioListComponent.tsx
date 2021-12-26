@@ -26,7 +26,7 @@ export const PortFolioListComponent = (props: any) => {
           ) : (
             <a
               href={data.link}
-              className="mt-2 text-base block clear-both font-medium text-indigo-700 hover:text-indigo-600"
+              className="mt-2 text-base block clear-both font-normal text-gray-700 hover:text-indigo-600"
             >
               See it<span aria-hidden="true"> &rarr;</span>
             </a>

@@ -40,7 +40,7 @@ export default function Home({ data }: IPortfolioResponse) {
       </Head>
 
       <section
-        className="-mt-32 max-w-8xl mx-auto pt-16 md:pt-26 relative z-10 md:pb-12 pb-32 px-4 sm:px-6 lg:px-8"
+        className="-mt-32 max-w-8xl mx-auto pt-16 md:pt-26 relative z-10 md:pb-12 pb-32 px-4 sm:px-6 lg:px-8 lg:w-9/12"
         aria-labelledby="contact-heading"
       >
         <div className="grid grid-cols-1 gap-y-20 lg:grid-cols-3 lg:gap-y-0 lg:gap-x-8 relative">
@@ -68,7 +68,7 @@ export default function Home({ data }: IPortfolioResponse) {
 
                     <a
                       href={link.link}
-                      className="text-base block clear-both font-medium text-indigo-700 hover:text-indigo-600"
+                      className="mt-2 text-base block clear-both font-normal text-gray-700 hover:text-indigo-600"
                     >
                       See it<span aria-hidden="true"> &rarr;</span>
                     </a>
