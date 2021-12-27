@@ -1,14 +1,7 @@
 const colors = require("./styles/colours");
 
 module.exports = {
-  purge: {
-    enabled: process.env.NODE_ENV === "production",
-    content: ["./src/**/*.{js,ts,jsx,tsx}"],
-    options: {
-      safelist: [],
-    },
-  },
-
+  purge: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
   presets: [],
   darkMode: false, // or 'media' or 'class'
 
