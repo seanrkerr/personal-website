@@ -9,7 +9,7 @@ const Footer: React.FC<FooterProps> = function ({ name }) {
         <div className="flex justify-center space-x-6 md:order-2">
           <a
             href="https://www.facebook.com/seanrkerr"
-            className="text-gray-400 hover:text-gray-500"
+            className="text-gray-600 hover:text-gray-500"
             target="_new"
           >
             <span className="sr-only">Facebook</span>
@@ -28,7 +28,7 @@ const Footer: React.FC<FooterProps> = function ({ name }) {
           </a>
           <a
             href="https://www.instagram.com/thefirstsean"
-            className="text-gray-400 hover:text-gray-500"
+            className="text-gray-600 hover:text-gray-500"
             target="_new"
           >
             <span className="sr-only">Instagram</span>
@@ -47,7 +47,7 @@ const Footer: React.FC<FooterProps> = function ({ name }) {
           </a>
           <a
             href="https://twitter.com/kerrsee"
-            className="text-gray-400 hover:text-gray-500"
+            className="text-gray-600 hover:text-gray-500"
             target="_new"
           >
             <span className="sr-only">Twitter</span>
@@ -62,7 +62,7 @@ const Footer: React.FC<FooterProps> = function ({ name }) {
           </a>
           <a
             href="https://github.com/seanrkerr"
-            className="text-gray-400 hover:text-gray-500"
+            className="text-gray-600 hover:text-gray-500"
             target="_new"
           >
             <span className="sr-only">GitHub</span>
@@ -81,7 +81,7 @@ const Footer: React.FC<FooterProps> = function ({ name }) {
           </a>
         </div>
         <div className="mt-8 md:mt-0 md:order-1">
-          <p className="text-center text-base text-gray-400">© Sean Kerr</p>
+          <p className="text-center text-base text-gray-600">© Sean Kerr</p>
         </div>
       </div>
     </footer>
