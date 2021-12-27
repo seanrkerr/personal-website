@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { htmlDecode } from "../common/htmlDecode";
 
 const headings = [
   {
