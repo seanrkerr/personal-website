@@ -34,6 +34,7 @@
     "fetch-mock-jest": "^1.5.1",
     "jest": "^27.1.0",
     "postcss": "^8.3.6",
+    "postcss-import": "^14.0.2",
     "start-server-and-test": "^1.14.0",
     "tailwindcss": "^2.2.7",
     "ts-jest": "^27.0.5",
