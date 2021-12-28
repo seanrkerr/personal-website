@@ -47,10 +47,9 @@ const Hero: React.FC = function () {
         {headings
           .filter((heading) => heading.path === router.pathname)
           .map((headingType, idx) => (
-            <>
+            <div key={idx}>
               <h1
                 dangerouslySetInnerHTML={{ __html: headingType.heading }}
-                key={idx}
                 className="text-4xl tracking-tight text-white md:text-5xl lg:text-6xl lg:ml-2"
               ></h1>
               {headingType.subHeading && (
@@ -70,7 +69,7 @@ const Hero: React.FC = function () {
                   className="mt-6 max-w-3xl text-xl text-gray-300"
                 ></p>
               )}
-            </>
+            </div>
           ))}
       </div>
     </div>

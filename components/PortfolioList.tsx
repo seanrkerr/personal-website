@@ -60,11 +60,12 @@ const PortfolioList: React.FC<PortfolioListProps> = function ({ listData }) {
 
   const handleScroll = () => {
     if (
-      window.innerHeight + document.documentElement.scrollTop !==
-        document.documentElement.offsetHeight ||
+      window.innerHeight + window.scrollY >= document.body.scrollHeight ||
       MAX_PAGES
-    )
+    ) {
       return;
+    }
+
     setIsFetching(true);
   };
 
