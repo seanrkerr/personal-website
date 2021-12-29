@@ -1,64 +1,30 @@
+import { rest } from "msw";
+
 import getPortfolio from "./getPortfolio";
 import { Result } from "../common/Result";
-import { enableFetchMocks } from "jest-fetch-mock";
-enableFetchMocks();
+import { server } from "../mocks/server";
 
-const expectedHappyPath = [
-  {
-    id: 16,
-    name: "NRMA",
-    story:
-      "This was one of NRMA's first online forms. It was a massive project, new platform, and great fun to work on. It was one of the first projects that I worked on, which had an emphasis on User Experience, with customer testing and a nice fresh UI.",
-    link: "",
-    image: "nrma.2a79a145.png",
-  },
-];
+describe("getPortfolio", () => {});
+it("should return successfull from happy path call", async () => {
+  const result = await getPortfolio({ apiEndpoint: "https://my.portfolio" });
 
-import fetch, { Response } from "node-fetch";
+  expect(result.type).toBe("success");
+  expect(result.data.name).toBe("NRMA");
+  expect(result.data.story).toBe("This was a cool project");
+});
 
-jest.mock("node-fetch");
+it("should return successfull from a 404", async () => {
+  const result = await getPortfolio({ apiEndpoint: "https://somewhere" });
 
-describe("getPortfolio", () => {
-  const mockFetch = fetch as jest.MockedFunction<typeof fetch>;
+  expect(result.type).toBe("success");
+  expect(result.data).toStrictEqual(undefined);
+});
 
-  it("should return successfull from happy path call", async () => {
-    const json = jest.fn() as jest.MockedFunction<any>;
-    json.mockResolvedValue(expectedHappyPath);
-    mockFetch.mockResolvedValue({ ok: true, json } as Response);
-    const result = await getPortfolio({ apiEndpoint: "http://somewhere.com" });
-    expect(json.mock.calls.length).toBe(1);
-    expect(result.type).toBe("success");
+it("should return an error with a message", async () => {
+  const result = await getPortfolio({ apiEndpoint: "https://error" });
 
-    expect(result).toEqual({ data: expectedHappyPath, type: "success" });
-  });
-
-  it("should return an empty array when the call hits an unknown url", async () => {
-    const json = jest.fn() as jest.MockedFunction<any>;
-    json.mockResolvedValue([]);
-    mockFetch.mockResolvedValue({ ok: true, json } as Response);
-    const result = await getPortfolio({ apiEndpoint: "http://somewhere" });
-    expect(json.mock.calls.length).toBe(1);
-    expect(result.type).toBe("success");
-    expect(result).toEqual({ data: [], type: "success" });
-  });
-
-  it("should return an error when an error response is encountered", async () => {
-    const json = jest.fn() as jest.MockedFunction<any>;
-    json.mockResolvedValue({ message: "something happened" });
-    mockFetch.mockResolvedValue({ ok: false, json } as Response);
-    const result = await getPortfolio({ apiEndpoint: "http://somewhere" });
-    expect(json.mock.calls.length).toBe(1);
-    expect(result.type).toBe("failure");
-    expect(result).toEqual({
-      error: new Error("The call to get the portfolio has failed"),
-      type: "failure",
-    });
-  });
-
-  it("should return an error when the endpoint address is not correct", async () => {
-    const json = jest.fn() as jest.MockedFunction<any>;
-    mockFetch.mockResolvedValue({ status: 404 } as Response);
-    const result = await getPortfolio({ apiEndpoint: "http://xxx" });
-    expect(result).toEqual({ type: "success", data: undefined });
-  });
+  expect(result.type).toBe("failure");
+  expect(result.error).toStrictEqual(
+    new Error("The call to get the portfolio has failed")
+  );
 });

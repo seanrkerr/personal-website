@@ -44,7 +44,7 @@ export default function Home({ data }: IPortfolioResponse) {
         aria-labelledby="contact-heading"
       >
         <div className="grid grid-cols-1 gap-y-20 lg:grid-cols-3 lg:gap-y-0 lg:gap-x-8 relative">
-          {data.length > 0 ? (
+          {data?.length > 0 ? (
             <>
               {data.map((link: any) => (
                 <div
@@ -59,6 +59,7 @@ export default function Home({ data }: IPortfolioResponse) {
                   </div>
                   <div className="p-6 md:bg-gray-50 rounded-bl-2xl rounded-br-2xl md:px-8 sm:bg-white-100 sm:mx-auto">
                     <Image
+                      data-testid="portfolio-tile-image"
                       className="mt-2"
                       src={`/${link.image}`}
                       alt={link.name}
