@@ -38,7 +38,7 @@ module.exports = (phase) => {
             {
               key: "Content-Security-Policy-Report-Only",
               value:
-                "default-src 'self'; font-src 'self' 'https://fonts.googleapis.com'; img-src 'self' *.seankerr.com; script-src 'self'",
+                "default-src 'self'; font-src 'self' 'https://fonts.googleapis.com' data:; img-src 'self' *.seankerr.com; script-src 'self'",
             },
             {
               key: "X-Frame-Options",
