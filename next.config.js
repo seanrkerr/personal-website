@@ -55,7 +55,11 @@ module.exports = (phase) => {
             {
               key: "Permissions-Policy",
               value:
-                "camera=(); battery=(self); geolocation=(); microphone=('https://seankerr.com')",
+                "Permissions-Policy: fullscreen=(self 'https://www.seankerr.com'), geolocation=*, camera=()",
+            },
+            {
+              key: "Strict-Transport-Security",
+              value: "max-age=63072000; includeSubDomains; preload",
             },
           ],
         },
