@@ -30,5 +30,36 @@ module.exports = (phase) => {
   };
   return {
     env,
+    async headers() {
+      return [
+        {
+          source: "/:path*",
+          headers: [
+            {
+              key: "Content-Security-Policy-Report-Only",
+              value:
+                "default-src 'self'; font-src 'self' 'https://fonts.googleapis.com'; img-src 'self' *.seankerr.com; script-src 'self'",
+            },
+            {
+              key: "X-Frame-Options",
+              value: "DENY",
+            },
+            {
+              key: "X-Content-Type-Options",
+              value: "nosniff",
+            },
+            {
+              key: "Referrer-Policy",
+              value: "origin-when-cross-origin",
+            },
+            {
+              key: "Permissions-Policy",
+              value:
+                "camera=(); battery=(self); geolocation=(); microphone=('https://seankerr.com')",
+            },
+          ],
+        },
+      ];
+    },
   };
 };
