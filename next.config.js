@@ -52,11 +52,11 @@ module.exports = (phase) => {
               key: "Referrer-Policy",
               value: "origin-when-cross-origin",
             },
-            {
-              key: "Permissions-Policy",
-              value:
-                "Permissions-Policy: fullscreen=(self 'https://www.seankerr.com'), geolocation=*, camera=()",
-            },
+            // {
+            //   key: "Permissions-Policy",
+            //   value:
+            //     "Permissions-Policy: fullscreen=(self 'https://www.seankerr.com'), geolocation=*, camera=()",
+            // },
             {
               key: "Strict-Transport-Security",
               value: "max-age=63072000; includeSubDomains; preload",
