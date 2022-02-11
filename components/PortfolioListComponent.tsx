@@ -19,6 +19,7 @@ export const PortFolioListComponent = (props: any) => {
             alt={data.name}
             width={425}
             height={273}
+            placeholder="blur"
           />
 
           {data.link === "" ? (
