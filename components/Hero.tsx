@@ -37,7 +37,7 @@ const Hero: React.FC = function () {
           layout="responsive"
           width={1920}
           height={600}
-          priority="true"
+          priority={true}
         />
         <div
           className="absolute inset-0 bg-gray-800 mix-blend-multiply"
