@@ -65,7 +65,7 @@ export default function Home({ data }: IPortfolioResponse) {
                       alt={link.name}
                       width={425}
                       height={273}
-                      placeholder="blur"
+                      priority={true}
                     />
 
                     <a
