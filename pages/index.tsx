@@ -67,13 +67,6 @@ export default function Home({ data }: IPortfolioResponse) {
                       height={273}
                       priority={true}
                     />
-
-                    <a
-                      href={link.link}
-                      className="mt-2 text-base block clear-both font-normal text-gray-700 hover:text-indigo-600"
-                    >
-                      See it<span aria-hidden="true"> &rarr;</span>
-                    </a>
                   </div>
                 </div>
               ))}
