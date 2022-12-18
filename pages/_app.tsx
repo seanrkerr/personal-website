@@ -1,8 +1,10 @@
 import "../styles/globals.css";
 import type { ReactElement, ReactNode } from "react";
 import type { NextPage } from "next";
+import Script from "next/script";
 import type { AppProps } from "next/app";
 import Layout from "../components/Layout";
+import "../styles/post.css";
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;

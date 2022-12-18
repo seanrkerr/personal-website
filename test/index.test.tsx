@@ -21,6 +21,7 @@ test("loads the home comp with one tile", async () => {
   const image = getByAltText("test-me");
 
   expect(screen.getByRole("heading")).toHaveTextContent("test-me");
+  expect(screen.getByText("this is a test")).toBeDefined;
   expect(image).toBeDefined();
-  expect(image.src).toContain("data:image/gif;");
+  expect(image.src).toContain("someimage.png");
 });

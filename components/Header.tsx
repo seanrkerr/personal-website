@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/link-passhref */
 import { Fragment } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,7 +8,9 @@ import { NotEmpty } from "../common/NotEmpty";
 
 const navigation = [
   { name: "Portfolio", href: "/portfolio", current: false },
+  { name: "About", href: "/about", current: false },
   { name: "Contact", href: "/contact", current: false },
+  { name: "Blog", href: "/blog", current: false },
 ];
 
 type HeaderProps = {
@@ -59,26 +60,20 @@ const Header: React.FC<HeaderProps> = function ({ name }) {
 
               <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex space-x-4">
-                  <Link
-                    href={{
-                      pathname: "/",
-                    }}
-                  >
-                    <a>
-                      <Image
-                        className="mt-2"
-                        src="/logo.ed3bbad2.png"
-                        alt="Logo"
-                        width={132}
-                        height={76}
-                      />
-                    </a>
+                  <Link href="/">
+                    <Image
+                      className="mt-2"
+                      src="/logo.ed3bbad2.png"
+                      alt="Logo"
+                      width={132}
+                      height={76}
+                    />
                   </Link>
                 </div>
                 <div className="hidden sm:block sm:ml-6">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
-                      <a
+                      <Link
                         key={item.name}
                         href={item.href}
                         className={
@@ -89,7 +84,7 @@ const Header: React.FC<HeaderProps> = function ({ name }) {
                         aria-current={item.current ? "page" : undefined}
                       >
                         {item.name}
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 </div>

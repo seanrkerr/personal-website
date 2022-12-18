@@ -18,6 +18,12 @@ const headings = [
   },
   {
     id: 3,
+    path: "/about",
+    heading: "About",
+    subHeading: "",
+  },
+  {
+    id: 4,
     path: "/contact",
     heading: "Contact",
     subHeading: "Say hi or even hire me",
