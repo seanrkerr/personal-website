@@ -73,7 +73,7 @@ const Header: React.FC<HeaderProps> = function ({ name }) {
                 <div className="hidden sm:block sm:ml-6">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
-                      <Link
+                      <a
                         key={item.name}
                         href={item.href}
                         className={
@@ -84,7 +84,7 @@ const Header: React.FC<HeaderProps> = function ({ name }) {
                         aria-current={item.current ? "page" : undefined}
                       >
                         {item.name}
-                      </Link>
+                      </a>
                     ))}
                   </div>
                 </div>

@@ -63,7 +63,10 @@ export default function Blog({ posts }: { posts: Array<PostInfo> }) {
                 </div>
                 <div className="flex flex-1 flex-col justify-between bg-white p-6">
                   <div className="flex-1">
-                    <a href={`posts/${slug}`} className="mt-2 mb-2 block">
+                    <a
+                      href={`posts/${slug}`}
+                      className="mt-2 mb-2 block hover:underline"
+                    >
                       <p className="text-xl font-semibold text-blue-900">
                         {title}
                       </p>
