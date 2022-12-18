@@ -16,4 +16,5 @@ export type PostDetail = {
   date: string;
   bannerImage: string;
   tags: Array<string>;
+  readTime: string;
 };
