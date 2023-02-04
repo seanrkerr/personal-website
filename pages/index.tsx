@@ -36,6 +36,10 @@ export default function Home({ data }: IPortfolioResponse) {
           name="description"
           content="Full stack developer, Sydney Australia"
         />
+        <meta
+          name="google-site-verification"
+          content="KPYEFLYYp4GultUHul8bn9owpxenQz-5Dn7NwXAfWMU"
+        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

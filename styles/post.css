@@ -49,5 +49,8 @@
     margin-top: 1.0666667em;
     margin-bottom: 1.0666667em;
 }
+.hljs-attribute {
+    font-weight: normal!important;
+}
 
 
