@@ -84,4 +84,4 @@ new MyStack(this, 'stack-id', { stackName: 'this-is-stack-name' });
 
 You can see a more detailed example of a [CDK stack here](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.Stack.html).
 
-I hope you enjoyed the article which is a small introduction to the CDK stacks. You can explore some more examples here.
+I hope you enjoyed the article which is a small introduction to the CDK stacks. You can explore some more [examples here](https://github.com/aws-samples/aws-cdk-examples).
