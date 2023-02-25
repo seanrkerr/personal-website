@@ -1,0 +1,193 @@
+---
+title: "What is the unit test mocking?"
+author: "Sean Kerr"
+category: "Testing"
+date: "2023-02-05"
+readTime: 5
+bannerImage: "comp.png"
+tags:
+  - Typescript
+  - Jest
+---
+
+## What is the unit test mocking?
+
+Mocking is generally used in unit testing. Sometimes, you may have complex scenarios that need to be tested in isolation. You can simulate the behaviour of other units by mocking their functionality.
+
+### Before we begin
+
+I'm using [jest](https://jestjs.io/) and [Typescript](https://www.typescriptlang.org/) for my demonstrations. The code for this article can be found [here](https://github.com/seanrkerr/personal-blog/tree/main/jest-testing).
+
+So why did I choose to do this in Typescript? Well, I was working in an organisation that was using Typescript for most of its codebase. I started to see some tests that had been written in javascript. I began to wonder why this was happening. As it turned out, some of the developers were having issues using Typescript in their tests.
+
+If you're not using the code in this article, and you wish to create your own project, to do this in then you will need to follow the steps below.
+
+create a new folder
+
+```
+mkdir jest-testing
+```
+
+Initialise a new project
+
+```
+npm init
+```
+
+Follow all of the prompts until you have a basic project with a `package.json` file in it.
+
+Then install the following packages
+
+```
+yarn add typescript @types/jest jest ts-jest @jest/globals
+```
+
+Now you can create your Typescript files for your functions and classes
+
+This is why I felt compelled to write this article. So `without further ado` lets jump right in.
+
+#### Mocking a function
+
+Mocking a Typescript function. Consider the following:
+
+```
+
+export const add = (): number => {
+  1 + 2;
+};
+
+```
+
+In our test we need to import the function that we want to test
+
+```
+import * as a from "./add";
+
+```
+
+Then we need to mock our function
+
+```
+jest.mock("./add", () => ({
+  add: jest.fn(),
+}));
+
+```
+
+At this point I'm thinking we are all ready to run our test but, there is one thing missing. We need to cast it as a type of jest.Mock.
+
+```
+const mockAdd = a.add as jest.Mock;
+```
+
+Okay so we have everything in place lets test our function.
+
+First we will create a test group using `describe`, then we will add our actuall test. I've used `it` here but, you also can use `test`. Next, I want to mock what my function returns so I use the built in jest function called `mockReturnValue`. In this case, my function is returning a number so I'm telling it to return 3. Then I'm going to call the actual function and my expectation is that the function will return the value of 3, due to the fact we have used Jest to `mock` our return value.
+
+```
+describe("add function", () => {
+  it("should pass", () => {
+    mockAdd.mockReturnValue(3);
+    const res = a.add();
+    expect(res).toEqual(3);
+  });
+});
+
+```
+
+So the test will pass as we are getting the value of 3 from our function. Great! Thats the job done right? Not so fast.
+
+Say we have a Typescript class? That class has some methods and we want to test those methods? This is a contrived example to illustrate.
+
+```
+interface User {}
+interface TheUser {
+  getSalary(id: string): Promise<User>;
+}
+interface SomeClientOfSomething {
+  request(method: string, endpoint: string): Promise<{ data: any }>;
+}
+export default class Employee implements TheUser {
+  constructor(private readonly someClient: SomeClientOfSomething) {}
+
+  public async getSalary(id: string): Promise<User> {
+    const response = await this.someClient.request(
+      "GET",
+      `/users/details/${id}`
+    );
+
+    return response.data;
+  }
+}
+```
+
+So I want to test the `getSalary` method of that class. How can I do this?
+
+First, I create the test file and import my class like
+
+```
+import Employee from "./Employee";
+```
+
+Then I create my descibe block and then create my test.
+
+```
+describe("some class", () => {
+  it("should pass", async () => {
+      //test code here
+  });
+});
+```
+
+Note the `async` keyword as part of the test. We are testing an asynchronous function so we need to ensure that test is `async` or we won't get the result we desire.
+
+Now, inside my test I start to do the following. Create my output or what I'm expecting to return from my test.
+
+```
+const theResponseIExpect = { salary: 2000 };
+```
+
+Then I mock the request
+
+```
+const SomeClientOfSomething = {
+  request: jest.fn().mockResolvedValueOnce({ data: theResponseIExpect }),
+};
+```
+
+Then we need initialise our class and call our function
+
+```
+const theSomeTest = new Employee(SomeClientOfSomething);
+const actual = await theSomeTest.getSalary("12");
+```
+
+Now we can assert on the response and assert on the call itself.
+
+```
+expect(actual).toEqual(theResponseIExpect);
+  expect(SomeClientOfSomething.request).toBeCalledWith(
+    "GET",
+    "/users/details/12"
+  );
+```
+
+Ok so we have learned a little about mocking with Jest. There's one last thing I would like to cover. As an example, say I want to use that class in one of my functions and then test the function without testing the class method? In other words, I'm using that method in my class but I just want to mock its behaviour.
+
+Well, you could use an automatic mock like
+
+```
+jest.mock("./Employee");
+```
+
+And then you could get access to the class like
+
+```
+const mockEmployeeInstance = Employee.mock.instances[0];
+const mockMethod1 = mockEmployeeInstance.getSalary;
+
+```
+
+This is handy when you need to test a method that uses a class method in its implementation. Of course, you don't need to test the class method, only mock it.
+
+I hope you enjoyed the article which is a small introduction to the mocking with Jest. There's plenty of information that I didn't cover here. You can read more about Jest [here](https://jestjs.io/)
