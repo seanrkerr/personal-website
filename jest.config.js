@@ -1,27 +1,20 @@
-const nextJest = require("next/jest");
-
-const createJestConfig = nextJest({
-  // Provide the path to your Next.js app to load next.config.js and .env files in your test environment
-  dir: "./",
-});
-
-// Add any custom config to be passed to Jest
-const customJestConfig = {
-  preset: "ts-jest",
-  modulePathIgnorePatterns: ["cypress"],
-  moduleNameMapper: {
-    // Handle module aliases (this will be automatically configured for you soon)
-    "^@/components/(.*)$": "<rootDir>/components/$1",
-
-    "^@/pages/(.*)$": "<rootDir>/pages/$1",
-  },
-  testEnvironment: "jest-environment-jsdom",
+module.exports = {
+  testEnvironment: 'jsdom',
   transform: {
-    "^.+\\.(ts|tsx)?$": "ts-jest",
-    "^.+\\.(js|jsx)$": "babel-jest",
+    '^.+\\.tsx?$': 'ts-jest',
+    '^.+\\.[jt]sx?$': `<rootDir>/jest-preprocess.js`,
   },
-  setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
+  testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.([tj]sx?)$',
+  moduleNameMapper: {
+    '.+\\.(css|styl|less|sass|scss)$': `identity-obj-proxy`,
+    '.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': `<rootDir>/__mocks__/file-mock.js`,
+  },
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+  testPathIgnorePatterns: [`node_modules`, `.cache`],
+  transformIgnorePatterns: [`node_modules/(?!(gatsby)/)`],
+  globals: {
+    __PATH_PREFIX__: ``,
+  },
+  setupFiles: [`<rootDir>/loadershim.js`],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
 };
-
-// createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
-module.exports = createJestConfig(customJestConfig);
