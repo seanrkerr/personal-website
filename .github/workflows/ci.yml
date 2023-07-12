@@ -2,7 +2,7 @@ name: Deploy Personal Website
 
 env:
   RESTURL_PORTFOLIO: ${{ secrets.RESTURL_PORTFOLIO }}
-
+  TEST_SECRET: ${{ secrets.TEST_SECRET }}
 on:
   push:
     branches:
@@ -12,6 +12,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
+      - name: Run script file
+      run: |
+         chmod +x ./scripts/deploy.sh
+         ./scripts/deploy.sh
+      shell: bash
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:

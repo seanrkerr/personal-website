@@ -21,7 +21,7 @@
     "postinstall": "husky install",
     "test": "npx jest --collectCoverage",
     "test:watch": "npx jest --watch",
-    "deploy": "gatsby-plugin-s3 deploy --yes; export AWS_PAGER=\"\"; aws cloudfront create-invalidation --distribution-id E5FDMTLPHUTLTL --paths '/*';"
+    "deploy": "gatsby-plugin-s3 deploy --yes; export AWS_PAGER=\"\";"
   },
   "engines": {
     "node": ">=18.0.0"
@@ -41,7 +41,6 @@
     "@types/jest": "29.5.2",
     "babel-jest": "29.6.0",
     "gatsby": "5.9.0",
-    "gatsby-plugin-s3": "0.4.1",
     "gatsby-transformer-sharp": "5.11.0",
     "prismjs": "1.29.0",
     "react": "18.2.0",
