@@ -1,5 +1,8 @@
 name: Deploy Personal Website
 
+env:
+  RESTURL_PORTFOLIO: ${{ secrets.RESTURL_PORTFOLIO }}
+
 on:
   push:
     branches:
