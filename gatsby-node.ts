@@ -1,4 +1,5 @@
-import type { GatsbyNode } from 'gatsby';
+import type { GatsbyNode, CreatePagesArgs } from 'gatsby';
+import path from 'path';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 
 console.log(`${process.env.RESTURL_PORTFOLIO}`);
@@ -47,7 +48,9 @@ exports.createSchemaCustomization = ({ actions }) => {
     type Frontmatter {
       title: String
       description: String
-      date: Date @dateformat
+      date: Date @dateformat   
+      bannerImage: File
+      tags: [String]
     }
 
     type Fields {
@@ -104,6 +107,50 @@ exports.sourceNodes = async ({
         type: `PortfolioPage`,
         contentDigest: createContentDigest(prtItem),
       },
+    });
+  });
+};
+
+exports.createPages = async ({
+  graphql,
+  actions,
+  reporter,
+}: CreatePagesArgs) => {
+  const { createPage } = actions;
+
+  const BlogPostTemplate = path.resolve('./src/templates/BlogPostTemplate.tsx');
+
+  //const result = await graphql<Queries.GatsbyNodeCreatePagesQuery>(
+  const result = await graphql<any>(
+    `
+      query GatsbyNodeCreatePages {
+        allMdx {
+          nodes {
+            id
+            frontmatter {
+              slug
+            }
+            internal {
+              contentFilePath
+            }
+          }
+        }
+      }
+    `,
+  );
+
+  if (result.errors) {
+    reporter.panicOnBuild(
+      'There was an error loading the MDX result',
+      result.errors,
+    );
+  }
+
+  result.data?.allMdx.nodes.forEach((node) => {
+    createPage({
+      path: `/blog/${node.frontmatter?.slug}`,
+      component: `${BlogPostTemplate}?__contentFilePath=${node.internal.contentFilePath}`,
+      context: { id: node.id },
     });
   });
 };

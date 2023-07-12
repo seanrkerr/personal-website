@@ -1,0 +1,163 @@
+---
+date: 2023-03-13 01:00:00
+slug: what-is-the-cdk
+title: What is the cdk?
+author: Sean Kerr
+bannerImage: ../../images/tech-image.png
+tags:
+  - AWS
+  - CDK
+  - Cloud
+---
+
+## Introducing the AWS Cloud Development Kit
+
+AWS CDK is an open-source framework that lets you create and provision AWS resources using code. At the time of writing, AWS CDK supports TypeScript, JavaScript, Python, Java, C#/.Net, and Go.
+
+### Key concepts
+
+The AWS CDK is designed around a handful of important concepts. I will introduce a few of these here briefly.
+
+An AWS CDK app is an application written in one of the languages mentioned above. An app defines one or more stacks. [Stacks](https://docs.aws.amazon.com/cdk/v2/guide/stacks.html) (Essentially AWS CloudFormation stacks). Stacks are comprised of [Constructs](https://docs.aws.amazon.com/cdk/v2/guide/constructs.html) which are cloud components (think Lambda Functions, S3 buckets, SQS queues etc).
+
+The AWS CDK includes a CLI toolkit (Command Line Interface) for working with your AWS CDK apps. The CLI allows you to perform tasks such as:
+
+- Convert AWS CDK stacks to AWS CloudFormation templates
+- Deploy your stacks to an AWS account and Region
+
+To install the toolkit you can simply use the following command:
+
+```bash
+npm install -g aws-cdk
+```
+
+And then you can use the toolkit to create a new typescript project:
+
+- Template - can be `app`, `lib` and `sample-app`
+- Language - can be `TypeScript`, `JavaScript`, `Python`, `Java`, `C#/.Net`, and `Go`.
+
+```bash
+cdk init template --language language
+```
+
+For a full list of commands that are contained in the CLI you can just use:
+
+```bash
+cdk help
+```
+
+### Constructs
+
+The AWS CDK includes a library of AWS constructs. Each AWS service is represented by a construct. Constructs are defined by levels. There are 3 levels:
+
+#### L1 (Level 1)
+
+These constructs correspond directly to resource types defined by AWS CloudFormation. These constructs are prefixed with `Cfn` before the construct name.
+
+An example L1 construct:
+
+```typescript
+// The code below shows an example of how to instantiate this type.
+// The values are placeholders you should change.
+import { aws_apigateway as apigateway } from 'aws-cdk-lib';
+const cfnApiKey = new apigateway.CfnApiKey(
+  this,
+  'MyCfnApiKey',
+  /* all optional props */ {
+    customerId: 'customerId',
+    description: 'description',
+    enabled: false,
+    generateDistinctId: false,
+    name: 'name',
+    stageKeys: [
+      {
+        restApiId: 'restApiId',
+        stageName: 'stageName',
+      },
+    ],
+    tags: [
+      {
+        key: 'key',
+        value: 'value',
+      },
+    ],
+    value: 'value',
+  },
+);
+```
+
+#### L2 (Level 2)
+
+These constructs are developed by the AWS CDK team for specific use cases and make it easier to create simple infrastructure. L2 constructs (in most cases) encapsulate L1 resources.
+
+An example L2 construct:
+
+```typescript
+this.api = new apigateway.RestApi(this, 'ApiGatewayRestApi', {
+  defaultCorsPreflightOptions: {
+    allowOrigins: apigateway.Cors.ALL_ORIGINS,
+    allowMethods: apigateway.Cors.ALL_METHODS,
+  },
+});
+
+this.api.root.addMethod(
+  'POST',
+  new apigateway.LambdaIntegration(this.lambdaFunction, {
+    proxy: true,
+  }),
+);
+```
+
+#### L3 (Level 3)
+
+Level 3 constructs are patterns. These constructs allow easy configuration of resources, grant permissions etc.
+
+An example L3 construct:
+
+```typescript
+const restApi = new apigateway.LambdaRestApi(this, 'LambdaRestApiL3', {
+  handler: this.lambdaFunction,
+  defaultCorsPreflightOptions: {
+    allowOrigins: apigateway.Cors.ALL_ORIGINS,
+    allowMethods: apigateway.Cors.ALL_METHODS,
+  },
+});
+```
+
+This is only a small introduction to constructs. You can find more examples in the [api docs](https://docs.aws.amazon.com/cdk/api/v2/) or [construct hub](https://constructs.dev/)
+
+### Getting started
+
+Installing the CDK via npm:
+
+```bash
+npm install -g aws-cdk
+```
+
+Verify the installation:
+
+```bash
+cdk help
+```
+
+Bootstrapping the environment:
+
+```bash
+cdk bootstrap aws://aws-acccount-number/aws-region
+```
+
+Bootstrapping is the process of provisioning resources for the AWS CDK before you can deploy AWS CDK apps into an AWS environment.
+
+Create a new app:
+
+```bash
+cdk init app --language typescript
+```
+
+Deploy the stack:
+
+```bash
+cdk deploy
+```
+
+I hope you enjoyed the article which is a small introduction to the AWS CDK. There's plenty of information that I didn't cover here. You can read more about the AWS CDK [here](https://docs.aws.amazon.com/cdk/index.html)

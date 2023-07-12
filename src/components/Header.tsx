@@ -6,6 +6,7 @@ const navigation = [
   { name: `Portfolio`, href: `/portfolio`, current: false },
   { name: `About`, href: `/about`, current: false },
   { name: `Contact`, href: `/contact`, current: false },
+  { name: `Blog`, href: `/blog`, current: false },
 ];
 
 type HeaderProps = {
