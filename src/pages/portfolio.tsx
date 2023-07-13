@@ -16,13 +16,19 @@ export default function Portfolio() {
   const [currentPage, setCurrentPage] = useState(1);
   const [hasError, setHasError] = useState(false);
 
+  console.log(
+    `THIS IS THE VALUE IN PORTFOLIO ${process.env.GATSBY_RESTURL_PORTFOLIO}`,
+  );
+
   useEffect(() => {
     const portfolio = new PortfolioService();
     setIsLoading(true);
-
+    console.log(
+      `THIS IS THE VALUE IN PORTFOLIO ${process.env.GATSBY_RESTURL_PORTFOLIO}`,
+    );
     const fetchData = async () => {
       return await portfolio.get(
-        `${process.env.RESTURL_PORTFOLIO}/portfolio?start=${currentPage}&limit=6`,
+        `${process.env.GATSBY_RESTURL_PORTFOLIO}/portfolio?start=${currentPage}&limit=6`,
       );
     };
     fetchData()

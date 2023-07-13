@@ -2,7 +2,7 @@ import type { GatsbyNode, CreatePagesArgs } from 'gatsby';
 import path from 'path';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 
-console.log(`${process.env.RESTURL_PORTFOLIO}`);
+console.log(`THIS IS THE VALUE IN NODE ${process.env.RESTURL_PORTFOLIO}`);
 
 async function getPortfolio(start: number, limit: number) {
   const response = await fetch(
@@ -141,7 +141,7 @@ exports.createPages = async ({
 
   if (result.errors) {
     reporter.panicOnBuild(
-      'There was an error loading the MDX result',
+      `There was an error loading the MDX result`,
       result.errors,
     );
   }
