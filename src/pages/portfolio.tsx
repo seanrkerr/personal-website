@@ -71,7 +71,7 @@ export default function Portfolio() {
   return (
     <Layout>
       <SEO
-        title="Home"
+        title="Portfolio"
         description="Portfolio of Sean Kerr"
         pagePath="/"
         schema={`{

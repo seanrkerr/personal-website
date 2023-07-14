@@ -1,13 +1,32 @@
 import React from 'react';
+import { SEO, useSEO } from 'gatsby-plugin-seo';
 import { MDXProvider } from '@mdx-js/react';
-import { graphql, PageProps } from 'gatsby';
+import { graphql, PageProps, Queries } from 'gatsby';
 import { StaticImage } from 'gatsby-plugin-image';
 
 import BlogLayout from '@/components/BlogLayout';
 
-const BlogPostTemplate: React.FC<PageProps<any>> = ({ data, children }) => {
+const BlogPostTemplate: React.FC<PageProps<Queries.BlogPost>> = ({
+  data,
+  children,
+}) => {
+  const { siteUrl } = useSEO();
   return (
     <BlogLayout>
+      <SEO
+        title="Portfolio"
+        description="Portfolio of Sean Kerr"
+        pagePath="/"
+        schema={`{
+            "@context": "http://schema.org",
+            "@type": "WebPage",
+            "mainEntity": {
+              "@type": "Organization",
+              "name": "Sean Kerr",
+              "image": "${siteUrl}/img/logo.ed3bbad2.png"
+            }
+          }`}
+      />
       <div className="pt-8 bg-white px-6 py-32 lg:px-8">
         <article className="mx-auto max-w-3xl text-base leading-7 text-gray-700">
           <header className="mt-4 lg:mb-6 not-format">

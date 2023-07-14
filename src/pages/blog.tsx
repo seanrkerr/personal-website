@@ -1,4 +1,5 @@
 import React from 'react';
+import { SEO, useSEO } from 'gatsby-plugin-seo';
 import { graphql, Link, PageProps } from 'gatsby';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 
@@ -17,8 +18,24 @@ export function BlogLeadingImage({ data }) {
 }
 
 const BlogPage: React.FC<PageProps<any>> = ({ data }) => {
+  const { siteUrl } = useSEO();
+
   return (
     <BlogLayout>
+      <SEO
+        title="Blog"
+        description="Blog of Sean Kerr"
+        pagePath="/"
+        schema={`{
+              "@context": "http://schema.org",
+              "@type": "WebPage",
+              "mainEntity": {
+                "@type": "Organization",
+                "name": "Sean Kerr",
+                "image": "${siteUrl}/img/logo.ed3bbad2.png"
+              }
+            }`}
+      />
       <div className="relative bg-gray-50 px-4 pt-8 pb-20 sm:px-6 lg:px-8 lg:pt-8 lg:pb-28">
         <div className="absolute inset-0">
           <div className="h-1/3 bg-white sm:h-2/3" />

@@ -5,7 +5,14 @@ require(`dotenv`).config({
 });
 
 const config: GatsbyConfig = {
+  siteMetadata: {
+    siteUrl: `https://www.seankerr.com`,
+  },
   plugins: [
+    {
+      resolve: `gatsby-plugin-advanced-sitemap`,
+      output: './public/sitemap.xml',
+    },
     {
       resolve: `gatsby-plugin-image`,
     },

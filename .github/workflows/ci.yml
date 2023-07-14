@@ -4,11 +4,12 @@ env:
   RESTURL_PORTFOLIO: ${{ secrets.RESTURL_PORTFOLIO }}
   GATSBY_RESTURL_PORTFOLIO: ${{ secrets.GATSBY_RESTURL_PORTFOLIO }}
   BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
+  DISTRIBUTION_ID: ${{ secrets.DISTRIBUTION_ID }}
 
 on:
   push:
     branches:
-      - develop
+      - main
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -48,3 +49,7 @@ jobs:
         shell: bash
         run: |
           make deploy
+      - name: Invalidate cache
+        shell: bash
+        run: |
+          make deploy    
