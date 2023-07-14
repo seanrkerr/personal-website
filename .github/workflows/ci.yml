@@ -52,4 +52,4 @@ jobs:
       - name: Invalidate cache
         shell: bash
         run: |
-          make deploy    
+          make invalidate    
