@@ -14,8 +14,8 @@ const BlogPostTemplate: React.FC<PageProps<Queries.BlogPost>> = ({
   return (
     <BlogLayout>
       <SEO
-        title="Portfolio"
-        description="Portfolio of Sean Kerr"
+        title={data.mdx?.frontmatter?.title}
+        description={data.mdx?.frontmatter?.title}
         pagePath="/"
         schema={`{
             "@context": "http://schema.org",
