@@ -1,4 +1,5 @@
 import React from 'react';
+import { StaticImage } from 'gatsby-plugin-image';
 
 const headings = [
   {
@@ -34,9 +35,9 @@ const Hero: React.FC = function () {
   return (
     <div className="relative md:pb-2 sm:pb-2 bg-gray-800">
       <div className="absolute inset-0">
-        <img
+        <StaticImage
           className="w-full h-full object-cover"
-          src="/hero.png"
+          src="../../public/hero.png"
           alt="Landscape picture"
           width={1920}
           height={600}
