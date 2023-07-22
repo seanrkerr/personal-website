@@ -1,4 +1,5 @@
 import { SEO, useSEO } from 'gatsby-plugin-seo';
+import { Script } from 'gatsby';
 import Layout from '@/components/Layout';
 import LoadingComp from '@/components/LoadingComp';
 import PortfolioService from '@/services/PortfolioService';
@@ -27,8 +28,7 @@ export default function Portfolio() {
     };
     fetchData()
       .then((res) => {
-        console.log(`res`, res);
-        if (res.type !== `success`) {
+        if (res.type !== `success` || !res?.data) {
           throw new Error(`no data returned`);
         }
 
@@ -50,7 +50,7 @@ export default function Portfolio() {
   }, [currentPage]);
 
   const renderPortFolio = () => {
-    return data.map((portFolioRow) => {
+    return (data || []).map((portFolioRow) => {
       return (
         <PortfolioTile
           rowId={portFolioRow?.id}
@@ -70,6 +70,11 @@ export default function Portfolio() {
 
   return (
     <Layout>
+      <Script
+        async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8413403065744703"
+        crossOrigin="anonymous"
+      ></Script>
       <SEO
         title="Portfolio"
         description="Portfolio of Sean Kerr"

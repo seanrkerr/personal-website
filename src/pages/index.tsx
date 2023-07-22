@@ -1,5 +1,5 @@
 import { SEO, useSEO } from 'gatsby-plugin-seo';
-import { graphql } from 'gatsby';
+import { graphql, Script } from 'gatsby';
 import Layout from '@/components/Layout';
 import ErrorComp from '@/components/ErrorComp';
 
@@ -11,6 +11,11 @@ export default function Home({ data }) {
 
   return (
     <Layout>
+      <Script
+        async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8413403065744703"
+        crossOrigin="anonymous"
+      ></Script>
       <SEO
         title="Home"
         description="Homepage of Sean Kerr"

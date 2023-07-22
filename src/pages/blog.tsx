@@ -1,6 +1,6 @@
 import React from 'react';
 import { SEO, useSEO } from 'gatsby-plugin-seo';
-import { graphql, Link, PageProps } from 'gatsby';
+import { graphql, Link, PageProps, Script } from 'gatsby';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 
 import BlogLayout from '@/components/BlogLayout';
@@ -22,6 +22,11 @@ const BlogPage: React.FC<PageProps<any>> = ({ data }) => {
 
   return (
     <BlogLayout>
+      <Script
+        async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8413403065744703"
+        crossOrigin="anonymous"
+      ></Script>
       <SEO
         title="Blog"
         description="Blog of Sean Kerr"
