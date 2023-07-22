@@ -55,4 +55,15 @@
     color: #1B2B5C;
 }
 
+.blog ol {
+    list-style-type: decimal;
+    margin-left: 2em;
+}
+.blog ol li {
+    padding: .2em;
+}
 
+.blog img {
+    margin: 2em 2em 2em 2em!important;
+    background-image: none;
+}
