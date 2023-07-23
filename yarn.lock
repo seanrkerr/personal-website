@@ -7206,6 +7206,13 @@ gatsby-plugin-advanced-sitemap@2.1.0:
     pify "5.0.0"
     xml "^1.0.1"
 
+gatsby-plugin-canonical-urls@5.11.0:
+  version "5.11.0"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-canonical-urls/-/gatsby-plugin-canonical-urls-5.11.0.tgz#09494785423f7d1290744df97113a0889e3abbab"
+  integrity sha512-UU0f/FDUKSoDrsycSm7vS2uPQRcUVwNlttDX75D6DLEIMWM7EGJUkmqv+OEPcMRgsNCJjLkJswnnUISQtj6idQ==
+  dependencies:
+    "@babel/runtime" "^7.20.13"
+
 gatsby-plugin-image@3.11.0:
   version "3.11.0"
   resolved "https://registry.yarnpkg.com/gatsby-plugin-image/-/gatsby-plugin-image-3.11.0.tgz#4d322ecf80bfa304a1400e6b06a9d7199154dcca"

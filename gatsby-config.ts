@@ -14,6 +14,12 @@ const config: GatsbyConfig = {
       output: './public/sitemap.xml',
     },
     {
+      resolve: `gatsby-plugin-canonical-urls`,
+      options: {
+        siteUrl: `https://www.seankerr.com`,
+      },
+    },
+    {
       resolve: `gatsby-plugin-image`,
     },
     `gatsby-plugin-sharp`,
@@ -64,7 +70,7 @@ const config: GatsbyConfig = {
             "url": "https://www.seankerr.com",
             "name": "Sean Kerr",
             "publisher": {
-              "@id": "https://example.com/about/#organization"
+              "@id": "https://www.seankerr.com.com/about"
             },
             "image": {
               "@type": "ImageObject",

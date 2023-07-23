@@ -42,6 +42,7 @@
     "babel-jest": "29.6.0",
     "gatsby": "5.9.0",
     "gatsby-plugin-advanced-sitemap": "2.1.0",
+    "gatsby-plugin-canonical-urls": "5.11.0",
     "gatsby-transformer-sharp": "5.11.0",
     "prismjs": "1.29.0",
     "react": "18.2.0",
