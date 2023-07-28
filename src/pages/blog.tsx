@@ -111,7 +111,7 @@ export const query = graphql`
             slug
             bannerImage {
               childImageSharp {
-                gatsbyImageData(width: 400, layout: FULL_WIDTH)
+                gatsbyImageData(width: 600, layout: FULL_WIDTH)
               }
             }
             tags
