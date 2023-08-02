@@ -1,16 +1,10 @@
 import Layout from '@/components/Layout';
 import { SEO, useSEO } from 'gatsby-plugin-seo';
-import { Script } from 'gatsby';
 
 export default function Portfolio() {
   const { siteUrl } = useSEO();
   return (
     <Layout>
-      <Script
-        async
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8413403065744703"
-        crossOrigin="anonymous"
-      ></Script>
       <SEO
         title="Contact"
         description="Contact Sean Kerr"
