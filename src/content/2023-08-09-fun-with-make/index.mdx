@@ -1,0 +1,205 @@
+---
+date: 2023-08-09 01:00:00
+slug: fun-with-make
+title: Fun with make
+author: Sean Kerr
+bannerImage: ../../images/wave_image.png
+tags:
+  - AWS
+  - Makefile
+---
+
+## Fun with Make
+
+Today I will be talking about [Makefiles](https://www.gnu.org/software/make/). Makefiles are really handy and as you'll see they have many, many uses. if you're using a mac or Linux machine then you should have `Make` installed already. If you're using windows you may need to [install it](https://linuxhint.com/install-use-make-windows/).
+
+### Prerequisites
+
+1. Make installed and running correctly
+2. Basic knowledge of the terminal / commandline
+
+### The basics
+
+So what is a Makefile anyway? A Makefile is a program building tool which runs on Unix, Linux, and their various builds and variations. In this guide, you will see that a `Make` can do a fair few things.
+
+### Variables
+
+Variables inside a Makefile can be defined in the following ways:
+
+```Makefile
+name = value - recursively expanded variable
+name := value - Simply expanded variable
+name ::= value - Simply expanded variable
+
+```
+
+So whats the difference? Simply expanded variables are scanned only once where as, the recursively expanded variables are expanded whenever the variable is substitued for another string.
+
+```Makefile
+
+foo = $(bar)
+bar = $(boo)
+boo = wow!
+
+all:;echo $(foo)
+```
+
+This will echo: `wow! $(foo) expands to $(bar) which expands to $(boo) which finally expands to wow!.`
+
+You can read more on variables [here](https://www.gnu.org/software/make/manual/html_node/Using-Variables.html)
+
+Ok. Just say I want to use the variable and I need to ensure it has a value. You could do something like:
+
+```Makefile
+  @$(if $(strip $(KMS_KEY)),,$(error KMS_KEY [$(KMS_KEY)] needs a value))
+```
+
+This will echo: `Makefile:14: \*\*\* KMS_KEY [] needs a value. Stop.`
+
+Here we use a text function to remove the white space, with an `if` directive, more on these later.
+
+You can read more on text functions [here](https://www.gnu.org/software/make/manual/html_node/Text-Functions.html)
+
+You can also use conditional variable assignment like:
+
+```Makefile
+cond ?= another value
+anotherCond ?= default value
+cond = some value
+
+conditionalVars:
+	@echo $(cond)
+	@echo $(anotherCond)
+
+```
+
+This will echo:
+
+`another value`
+
+`default value`
+
+if I remove the default value then I will get the value i assigned:
+
+```Makefile
+cond ?=
+anotherCond ?= default value
+cond = some value
+
+conditionalVars:
+	@echo $(cond)
+	@echo $(anotherCond)
+
+```
+
+This will echo:
+
+`some value`
+
+`default value`
+
+### Rules
+
+Rules are commands that run targets. An example of a rule:
+
+```Makefile
+rule: [target]
+```
+
+A more concise example:
+
+```Makefile
+NAME="test me"
+
+exportTest:
+	@echo $(NAME)
+```
+
+This will echo: test me
+
+You can read more about rules [here](https://www.gnu.org/software/make/manual/html_node/Rules.html)
+
+So what else can you do with Make? Well, lots.
+
+How about your need to export a value and use it somewhere else?
+
+```Makefile
+export TEST_ME = Make me
+
+exportTest:
+	@echo ${TEST_ME}
+```
+
+This will echo: `Make me`
+
+This configuration can be handy when you're building pipelines and your needing to export values dynamically.
+
+### Conditionals
+
+Conditional directives can be handy for various tasks. The syntax of them is as follows.
+
+`conditional-directive`
+
+`text-if-true`
+
+`endif`
+
+The ifeq directive lines of the makefile following the ifeq are obeyed if the two arguments match; otherwise they are ignored.
+
+```Makefile
+directivesTest:
+ifeq ($(empty_var), ok)
+	echo "empty_var equals ok"
+else
+	echo "empty_var does not"
+endif
+```
+
+This will echo `empty_var does not`
+
+The lines of the makefile following the ifneq are obeyed if the two arguments do not match; otherwise they are ignored.
+
+```Makefile
+directivesTest:
+ifneq ($(empty_var), ok)
+	echo "empty_var equals ok"
+else
+	echo "empty_var does not"
+endif
+```
+
+This will echo `empty_var equals ok`
+
+More on conditionals [here](https://gnu.org/s/make/manual/html_node/Conditional-Syntax.html)
+
+Just before we go... You may have noticed a few things.
+
+### Execution
+
+The `@` symbol. Adding before a command this will stop the command from being printed.
+
+The `$$` symbols. Adding this is how to use a variable in `bash` or `sh`
+
+You can read more about it [here](https://www.gnu.org/s/make/manual/html_node/Setting.html)
+
+### Functions
+
+```Makefile
+testTarget:
+	@echo $(shell ls)
+```
+
+This will echo a list of files in the folder you're running the target in.
+
+what about something more advanced like this?
+
+```Makefile
+testTarget:
+	$(eval STACK_STATUS=$(shell aws cloudformation describe-stacks --stack-name my-cloudformation-stack --query 'Stacks[0].StackStatus' --output text))
+```
+
+This will store the status of a [stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-stack.html) in a variable called `STACK_STATUS` which you can use in different parts of your `Make` target.
+
+More on functions [here](https://www.gnu.org/s/make/manual/html_node/Functions.html)
+
+Well I hope that you enjoyed learning about `Make`. This article has just scratched the surface of what can be done using `Makefiles`.
