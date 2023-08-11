@@ -2,6 +2,7 @@ import { SEO, useSEO } from 'gatsby-plugin-seo';
 import { graphql } from 'gatsby';
 import Layout from '@/components/Layout';
 import ErrorComp from '@/components/ErrorComp';
+import Helmet from 'react-helmet';
 
 export default function Home({ data }) {
   const { siteUrl } = useSEO();
@@ -25,6 +26,12 @@ export default function Home({ data }) {
               }
             }`}
       />
+      <Helmet>
+        <meta
+          name="ahrefs-site-verification"
+          content="dc81e744fc1751c07164efce0964adc4f15ef95df2bc8dd064dca395d2aefa11"
+        />
+      </Helmet>
       <section
         className="-mt-32 max-w-8xl mx-auto pt-16 md:pt-26 relative z-10 md:pb-12 pb-32 px-4 sm:px-6 lg:px-8 lg:w-9/12"
         aria-labelledby="contact-heading"
