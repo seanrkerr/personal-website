@@ -4,7 +4,7 @@ import { SEO, useSEO } from 'gatsby-plugin-seo';
 export default function Portfolio() {
   const { siteUrl } = useSEO();
   return (
-    <Layout>
+    <Layout title="Contact Me">
       <SEO
         title="Contact"
         description="Contact Sean Kerr"

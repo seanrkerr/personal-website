@@ -68,7 +68,7 @@ export default function Portfolio() {
   };
 
   return (
-    <Layout>
+    <Layout title="Portfolio">
       <SEO
         title="Portfolio"
         description="Portfolio of Sean Kerr"

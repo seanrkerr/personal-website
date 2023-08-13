@@ -7,6 +7,14 @@
     --tw-text-opacity: 1;
     color: rgb(107 114 128 / var(--tw-text-opacity));
 }
+.blog h1 {
+    font-size: 1.8888887em;
+    margin-top: 1.8666667em;
+    margin-bottom: 1.0666667em;
+    line-height: 1.3333333;
+    --tw-text-opacity: 1;
+    color: rgb(96, 165, 250 / var(--tw-text-opacity));
+}
 .blog h2 {
     font-size: 1.6666667em;
     margin-top: 1.8666667em;

@@ -5,13 +5,14 @@ import Footer from './Footer';
 
 type LocationProps = {
   children: React.node;
+  title?: string;
 };
 
-const Layout: React.FC<LocationProps> = function ({ children }) {
+const Layout: React.FC<LocationProps> = function ({ children, title }) {
   return (
     <>
       <Header name="header" />
-      <Hero />
+      <Hero title={title} />
       <main>{children}</main>
       <Footer name="footer" />
     </>

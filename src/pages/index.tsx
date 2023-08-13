@@ -11,7 +11,7 @@ export default function Home({ data }) {
   } = data;
 
   return (
-    <Layout>
+    <Layout title="Hi, I'm Sean a full stack developer from Sydney, Australia.">
       <Helmet>
         <meta
           name="ahrefs-site-verification"

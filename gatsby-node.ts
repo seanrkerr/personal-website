@@ -147,6 +147,7 @@ exports.createPages = async ({
   }
 
   result.data?.allMdx.nodes.forEach((node) => {
+    console.log('ode', node);
     createPage({
       path: `/blog/${node.frontmatter?.slug}`,
       component: `${BlogPostTemplate}?__contentFilePath=${node.internal.contentFilePath}`,

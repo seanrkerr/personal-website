@@ -4,7 +4,7 @@ import Layout from '@/components/Layout';
 export default function About() {
   const { siteUrl } = useSEO();
   return (
-    <Layout>
+    <Layout title="About Me">
       <SEO
         title="About"
         description="About of Sean Kerr"
