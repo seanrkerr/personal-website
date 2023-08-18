@@ -39,6 +39,7 @@ const BlogPostTemplate: React.FC<PageProps<Queries.BlogPost>> = ({
                   width={120}
                   height={120}
                 />
+
                 <div>
                   <a
                     href="#"

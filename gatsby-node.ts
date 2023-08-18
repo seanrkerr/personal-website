@@ -1,4 +1,4 @@
-import type { GatsbyNode, CreatePagesArgs } from 'gatsby';
+import type { GatsbyNode, CreatePagesArgs, Queries } from 'gatsby';
 import path from 'path';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 
@@ -118,10 +118,9 @@ exports.createPages = async ({
 }: CreatePagesArgs) => {
   const { createPage } = actions;
 
-  const BlogPostTemplate = path.resolve('./src/templates/BlogPostTemplate.tsx');
+  const BlogPostTemplate = path.resolve(`./src/templates/BlogPostTemplate.tsx`);
 
-  //const result = await graphql<Queries.GatsbyNodeCreatePagesQuery>(
-  const result = await graphql<any>(
+  const result = await graphql<Queries.GatsbyNodeCreatePagesQuery>(
     `
       query GatsbyNodeCreatePages {
         allMdx {
@@ -147,11 +146,31 @@ exports.createPages = async ({
   }
 
   result.data?.allMdx.nodes.forEach((node) => {
-    console.log('ode', node);
     createPage({
       path: `/blog/${node.frontmatter?.slug}`,
       component: `${BlogPostTemplate}?__contentFilePath=${node.internal.contentFilePath}`,
       context: { id: node.id },
     });
   });
+
+  const MAX_POSTS_PER_PAGE_HOME = 10;
+
+  const createHomePagination = (posts, createPage) => {
+    const numberOfPages = Math.ceil(posts.length / MAX_POSTS_PER_PAGE_HOME);
+
+    Array.from({ length: numberOfPages }).forEach((_, i) => {
+      createPage({
+        path: `/blog/${i + 1}`,
+        component: path.resolve(`./src/templates/BlogIndexTemplate.tsx`),
+        context: {
+          limit: MAX_POSTS_PER_PAGE_HOME,
+          skip: i * MAX_POSTS_PER_PAGE_HOME,
+          numberOfPages,
+          currentPage: i + 1,
+        },
+      });
+    });
+  };
+
+  createHomePagination(result.data?.allMdx.nodes, createPage);
 };
