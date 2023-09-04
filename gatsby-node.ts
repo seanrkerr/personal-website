@@ -153,7 +153,7 @@ exports.createPages = async ({
     });
   });
 
-  const MAX_POSTS_PER_PAGE_HOME = 10;
+  const MAX_POSTS_PER_PAGE_HOME = 6;
 
   const createHomePagination = (posts, createPage) => {
     const numberOfPages = Math.ceil(posts.length / MAX_POSTS_PER_PAGE_HOME);

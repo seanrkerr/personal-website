@@ -31,6 +31,7 @@ const BlogIndexTemplate: React.FC<PageProps<Queries.BlogPost>> = ({
   const { currentPage, numberOfPages } = pageContext || {};
   const isFirst = currentPage === 1;
   const isLast = currentPage === numberOfPages;
+  console.log(`isLast`, !isLast);
   const prevPage =
     currentPage - 1 === 1 ? `/blog/1` : `/blog/${(currentPage - 1).toString()}`;
   const nextPage = `/blog/${(currentPage + 1).toString()}`;

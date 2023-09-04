@@ -75,3 +75,8 @@
     margin: 2em 2em 2em 2em!important;
     background-image: none;
 }
+
+.blog span:has(span) {
+    margin-bottom: 60px;
+  }
+  
