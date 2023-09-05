@@ -11,7 +11,7 @@ const config: GatsbyConfig = {
   plugins: [
     {
       resolve: `gatsby-plugin-advanced-sitemap`,
-      output: './public/sitemap.xml',
+      output: `./public/sitemap.xml`,
     },
     {
       resolve: `gatsby-plugin-canonical-urls`,

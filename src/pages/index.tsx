@@ -12,10 +12,19 @@ export default function Home({ data }) {
 
   return (
     <Layout title="Hi, I'm Sean a full stack developer from Sydney, Australia.">
-      <Helmet>
+      <Helmet
+        htmlAttributes={{
+          lang: `en`,
+        }}
+      >
         <meta
           name="ahrefs-site-verification"
           content="dc81e744fc1751c07164efce0964adc4f15ef95df2bc8dd064dca395d2aefa11"
+        />
+        <meta name="title" content="Website for Sean Kerr" />
+        <meta
+          name="description"
+          content="Hi, I'm Sean a full stack developer from Sydney, Australia."
         />
       </Helmet>
       <SEO
