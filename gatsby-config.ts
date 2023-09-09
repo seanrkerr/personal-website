@@ -18,6 +18,18 @@ const config: GatsbyConfig = {
   },
   plugins: [
     {
+      resolve: `gatsby-plugin-robots-txt`,
+      options: {
+        host: `https://www.seankerr.com`,
+        sitemap: `https://www.seankerr.com/sitemap.xml`,
+        env: {
+          production: {
+            policy: [{ userAgent: `*`, allow: `/` }],
+          },
+        },
+      },
+    },
+    {
       resolve: `gatsby-plugin-advanced-sitemap`,
       output: `./public/sitemap.xml`,
     },
