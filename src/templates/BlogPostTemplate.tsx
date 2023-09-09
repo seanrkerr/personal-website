@@ -1,74 +1,65 @@
 import React from 'react';
-import { SEO, useSEO } from 'gatsby-plugin-seo';
 import { MDXProvider } from '@mdx-js/react';
 import { graphql, PageProps, Queries } from 'gatsby';
 import { StaticImage } from 'gatsby-plugin-image';
 
 import BlogLayout from '@/components/BlogLayout';
+import Seo from '@/components/Seo';
 
 const BlogPostTemplate: React.FC<PageProps<Queries.BlogPost>> = ({
   data,
   children,
 }) => {
-  const { siteUrl } = useSEO();
   return (
-    <BlogLayout>
-      <SEO
+    <>
+      <Seo
         title={data.mdx?.frontmatter?.title}
-        description={data.mdx?.frontmatter?.title}
-        pagePath="/"
-        schema={`{
-            "@context": "http://schema.org",
-            "@type": "WebPage",
-            "mainEntity": {
-              "@type": "Organization",
-              "name": "Sean Kerr",
-              "image": "${siteUrl}/img/logo.ed3bbad2.png"
-            }
-          }`}
+        pageName={data.mdx?.frontmatter?.title}
       />
-      <div className="pt-8 bg-white px-6 py-32 lg:px-8">
-        <article className="mx-auto max-w-3xl text-base leading-7 text-gray-700">
-          <header className="mt-4 lg:mb-6 not-format">
-            <address className="mb-6 not-italic">
-              <div className="text-sm text-gray-900 dark:text-white">
-                <StaticImage
-                  className="w-16 h-16 rounded-full display-inline-block"
-                  src="../../public/seankerr.png"
-                  alt="Sean Kerr"
-                  width={120}
-                  height={120}
-                />
+      <BlogLayout>
+        <div className="pt-8 bg-white px-6 py-32 lg:px-8">
+          <article className="mx-auto max-w-3xl text-base leading-7 text-gray-700">
+            <header className="mt-4 lg:mb-6 not-format">
+              <address className="mb-6 not-italic">
+                <div className="text-sm text-gray-900 dark:text-white">
+                  <StaticImage
+                    className="w-16 h-16 rounded-full display-inline-block"
+                    src="../../public/seankerr.png"
+                    alt="Sean Kerr"
+                    width={120}
+                    height={120}
+                  />
 
-                <div>
-                  <a
-                    href="#"
-                    rel="author"
-                    className="text-xl font-bold text-gray-900 dark:text-white"
-                  >
-                    Sean Kerr
-                  </a>
-                  <p className="text-base font-light text-gray-500 dark:text-gray-400">
-                    Full Stack Engineer
-                  </p>
-                  <p className="text-base font-light text-gray-500 dark:text-gray-400">
-                    <time
-                      dateTime={data.mdx?.frontmatter?.date}
-                      title={data.mdx?.frontmatter?.date}
+                  <div>
+                    <a
+                      href="#"
+                      rel="author"
+                      className="text-xl font-bold text-gray-900 dark:text-white"
                     >
-                      {data.mdx?.frontmatter?.date}
-                    </time>
-                  </p>
+                      Sean Kerr
+                    </a>
+                    <p className="text-base font-light text-gray-500 dark:text-gray-400">
+                      Full Stack Engineer
+                    </p>
+                    <p className="text-base font-light text-gray-500 dark:text-gray-400">
+                      <time
+                        dateTime={data.mdx?.frontmatter?.date}
+                        title={data.mdx?.frontmatter?.date}
+                      >
+                        {data.mdx?.frontmatter?.date}
+                      </time>
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </address>
-          </header>
-          <MDXProvider>
-            <div className="blog">{children}</div>
-          </MDXProvider>
-        </article>
-      </div>
-    </BlogLayout>
+              </address>
+            </header>
+            <MDXProvider>
+              <div className="blog">{children}</div>
+            </MDXProvider>
+          </article>
+        </div>
+      </BlogLayout>
+    </>
   );
 };
 
