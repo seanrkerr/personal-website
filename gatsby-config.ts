@@ -6,7 +6,15 @@ require(`dotenv`).config({
 
 const config: GatsbyConfig = {
   siteMetadata: {
+    title: `Sean Kerr - full stack developer`,
+    description: `Sean Kerr - full stack developer from Sydney, Australia`,
+    author: `Sean Kerr`,
     siteUrl: `https://www.seankerr.com`,
+    image: `https://www.seankerr.com/logo.ed3bbad2.png`,
+    url: `https://www.seankerr.com`,
+    type: `website`,
+    keywords: `AWS, CDK, Serverless, React`,
+    ahrefs: `dc81e744fc1751c07164efce0964adc4f15ef95df2bc8dd064dca395d2aefa11`,
   },
   plugins: [
     {

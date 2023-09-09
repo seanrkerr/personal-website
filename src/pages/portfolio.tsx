@@ -1,15 +1,14 @@
-import { SEO, useSEO } from 'gatsby-plugin-seo';
 import Layout from '@/components/Layout';
 import LoadingComp from '@/components/LoadingComp';
 import PortfolioService from '@/services/PortfolioService';
 import { useState, useEffect } from 'react';
 import PortfolioTile from '@/components/PortfolioTile';
 import ErrorComp from '@/components/ErrorComp';
+import Seo from '@/components/Seo';
 
 const MAX_PORTFOLIO_PAGES = 3;
 
 export default function Portfolio() {
-  const { siteUrl } = useSEO();
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [moreRows, setMoreRows] = useState(true);
@@ -68,42 +67,31 @@ export default function Portfolio() {
   };
 
   return (
-    <Layout title="Portfolio">
-      <SEO
-        title="Portfolio"
-        description="Portfolio of Sean Kerr"
-        pagePath="/"
-        schema={`{
-            "@context": "http://schema.org",
-            "@type": "WebPage",
-            "mainEntity": {
-              "@type": "Organization",
-              "name": "Sean Kerr",
-              "image": "${siteUrl}/img/logo.ed3bbad2.png"
-            }
-          }`}
-      />
-      <section className="-mt-32 grid grid-cols-1 gap-y-20 lg:grid-cols-3 lg:gap-y-0 lg:gap-x-8 relative max-w-8xl mx-auto pt-8 md:pt-26 relative z-10 md:pb-12 pb-32 px-4 sm:px-6 lg:px-8 lg:w-9/12">
-        {renderPortFolio()}
-        {hasError && <ErrorComp />}
-        {moreRows && (
-          <>
-            <div> &nbsp;</div>
-            {!isLoading ? (
-              <button
-                className="rounded-md bg-gray-800 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-gray-600 mt-8"
-                onClick={loadMore}
-              >
-                Load More
-              </button>
-            ) : (
-              ``
-            )}
+    <>
+      <Seo title="Portfolio - Welcome to my Portfolio" pageName="Portfolio" />
+      <Layout title="Portfolio">
+        <section className="-mt-32 grid grid-cols-1 gap-y-20 lg:grid-cols-3 lg:gap-y-0 lg:gap-x-8 relative max-w-8xl mx-auto pt-8 md:pt-26 relative z-10 md:pb-12 pb-32 px-4 sm:px-6 lg:px-8 lg:w-9/12">
+          {renderPortFolio()}
+          {hasError && <ErrorComp />}
+          {moreRows && (
+            <>
+              <div> &nbsp;</div>
+              {!isLoading ? (
+                <button
+                  className="rounded-md bg-gray-800 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-gray-600 mt-8"
+                  onClick={loadMore}
+                >
+                  Load More
+                </button>
+              ) : (
+                ``
+              )}
 
-            {isLoading ? <LoadingComp /> : ``}
-          </>
-        )}
-      </section>
-    </Layout>
+              {isLoading ? <LoadingComp /> : ``}
+            </>
+          )}
+        </section>
+      </Layout>
+    </>
   );
 }
