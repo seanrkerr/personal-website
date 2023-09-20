@@ -1,0 +1,513 @@
+---
+date: 2023-09-15 01:00:00
+slug: what-is-aws-app-config
+title: What is a AWS App Config?
+author: Sean Kerr
+bannerImage: ../../images/surfer.png
+tags:
+  - AWS
+  - CDK
+  - Cloud
+---
+
+# What is a AWS App Config?
+
+AWS App Config can be used to create, manage, and quickly deploy application configurations. It is a service that allows you to manage your application configurations in a central place and deploy them to your applications. It is a great way to manage your application configurations and keep them in sync across multiple environments.
+
+We are going to build a simple AWS App Config using the AWS CDK.
+
+### Prerequisites
+
+1. AWS Account
+2. Basic knowledge of the AWS CLI, and have it installed.
+3. Basic knowledge of the AWS CDK, and have it installed.
+
+If you want to follow along with the code, you can find it [here](https://github.com/seanrkerr/personal-blog/tree/main/app-config).
+
+### Key concepts
+
+`Configure:` Use AWS App Config to manage application settings in a variety of applications. You can source the App Config from a variety of AWS services including Amazon S3, AWS AppConfig hosted configurations, Parameter Store just to name a few.
+
+`Validate:` AWS App Config allows you to validate your application configurations before they are deployed to your applications. AWS AppConfig validators provide a syntactic check using a JSON schema or a semantic check using an AWS Lambda function to ensure that your configurations deploy as intended.
+
+`Monitor:`AWS App Config allows you to monitor the deployment as its happening. You can set alarms existing or new as a monitor in the config. This will alert you to any issues the new App Config deployment maybe causing.
+
+### Use cases
+
+AWS App Config can be used for a variety of use cases. Here are a few examples of how you can use AWS App Config:
+
+- Allow list
+
+- Feature toggles
+
+- Application tuning / Gradual deployments
+
+### How to use AWS App Config
+
+Alright now lets get started with AWS App Config. We will be using the AWS CDK to create the AWS App Config. If you are not familiar with the AWS CDK, I would recommend checking out my [previous blog post](/blog/what-is-the-aws-cdk/) on the AWS CDK.
+
+If you want a jump start and get straight to the code then TBA
+
+Step 1: Create a new AWS CDK project
+
+```bash
+mkdir app-config
+```
+
+```bash
+cdk init app --language typescript
+```
+
+Once the setup of the app is complete. AWS AppConfig requires that you create resources and deploy a configuration in the following order:
+
+1. Create an application
+1. Create an environment
+1. Create a configuration profile
+1. Create a hosted configuration
+1. Create a deployment strategy
+1. Deploy the configuration
+
+Step 2: Create an application
+
+I like to break things up into smaller classes. Create a new file called `APApplication.ts` and add the following code.
+
+```typescript
+import { aws_appconfig as appconfig } from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+
+export type APApplicationProps = {
+  appId: string;
+  appName: string;
+  description: string;
+};
+
+export default class APApplication extends appconfig.CfnApplication {
+  constructor(scope: Construct, props: APApplicationProps) {
+    super(scope, props.appId, {
+      name: props.appName,
+      description: props.description,
+    });
+  }
+}
+```
+
+And now add it to the stack file. Which was created for you when you initialised the project.
+
+```typescript
+import { Stack, StackProps, aws_appconfig as appconfig } from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import APApplication from './APApplication';
+
+export class AppConfigStack extends Stack {
+  private app: appconfig.CfnApplication;
+  constructor(scope: Construct, id: string, props?: StackProps) {
+    super(scope, id, props);
+
+    this.app = new APApplication(this, {
+      appId: 'My Cool Config',
+      appName: 'My Cool App',
+      description: 'My Cool Description',
+    });
+  }
+}
+```
+
+Step 3: Create the environment for the AppConfig.
+
+Think of an environment as being a logical deployment group of AppConfig resources. You can use environments to deploy configurations to subsets of your application users. For example, you can deploy a configuration to a group of users who are testing a new feature in your application or to a group of users who are using a previous version of your application.
+
+No create a new file called `APEnvironment.ts` and add the following code.
+
+```typescript
+import { aws_appconfig as appconfig } from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+
+export type APEnvironmentProps = {
+  appId: appconfig.CfnApplication;
+  env: string;
+};
+
+export default class APEnvironment extends appconfig.CfnEnvironment {
+  constructor(scope: Construct, props: APEnvironmentProps) {
+    super(scope, 'APEnvironment', {
+      applicationId: props.appId.ref,
+      name: props.env,
+    });
+  }
+}
+```
+
+And now add the Environment to the stack file.
+
+```typescript
+import { Stack, StackProps, aws_appconfig as appconfig } from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import APApplication from './APApplication';
+import APEnvironment from './APEnvironment';
+
+export class AppConfigStack extends Stack {
+  private app: appconfig.CfnApplication;
+  constructor(scope: Construct, id: string, props?: StackProps) {
+    super(scope, id, props);
+
+    this.app = new APApplication(this, {
+      appId: 'My Cool Config',
+      appName: 'My Cool App',
+      description: 'My Cool Description',
+    });
+
+    const env = new APEnvironment(this, {
+      appId: this.app,
+      env: 'My Cool Env',
+    });
+  }
+}
+```
+
+Step 4: Create the configuration profile for the AppConfig.
+
+A configuration profile enables the AWS AppConfig to access the configuration source.
+Valid configuration sources include AWS Systems Manager (SSM) documents, SSM Parameter Store parameters, and Amazon S3 . A configuration profile includes the following information.
+
+- The Uri location of the configuration data.
+- The AWS Identity and Access Management ( IAM ) role that provides access to the configuration data.
+- A validator for the configuration data. Available validators include either a JSON Schema or the Amazon Resource Name (ARN) of an AWS Lambda function.
+
+```typescript
+import { aws_appconfig as appconfig } from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+
+export type APConfigurationProfileProps = {
+  appId: appconfig.CfnApplication;
+  locationUri: string;
+  name: string;
+};
+
+export default class APConfigurationProfile extends appconfig.CfnConfigurationProfile {
+  constructor(scope: Construct, props: APConfigurationProfileProps) {
+    super(scope, 'APConfigurationProfile', {
+      applicationId: props.appId.ref,
+      locationUri: props.locationUri,
+      name: props.name,
+    });
+  }
+}
+```
+
+And now we add it the stack file.
+
+```typescript
+import { Stack, StackProps, aws_appconfig as appconfig } from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import APApplication from './APApplication';
+import APEnvironment from './APEnvironment';
+import APConfigurationProfile from './APConfigurationProfile';
+
+export class AppConfigStack extends Stack {
+  private app: appconfig.CfnApplication;
+  constructor(scope: Construct, id: string, props?: StackProps) {
+    super(scope, id, props);
+
+    this.app = new APApplication(this, {
+      appId: 'My Cool Config',
+      appName: 'My Cool App',
+      description: 'My Cool Description',
+    });
+
+    const env = new APEnvironment(this, {
+      appId: this.app,
+      env: 'My Cool Env',
+    });
+
+    const configProfile = new APConfigurationProfile(this, {
+      appId: this.app,
+      locationUri: 'hosted',
+      name: 'My Cool Config Profile',
+    });
+  }
+}
+```
+
+Step 5: Create the AWS AppConfig hosted configuration.
+
+Configurations must be 1 MB or smaller. The AWS AppConfig hosted configuration store provides the following benefits over other configuration store options.
+
+- No need to configure s3 buckets or parameter store
+- No need to manage permissions
+- You can use any content type for the storage
+- There is no cost to use the store
+
+```typescript
+import { aws_appconfig as appconfig } from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+
+export type APHostedConfigProps = {
+  appId: appconfig.CfnApplication;
+  profile: appconfig.CfnConfigurationProfile;
+  content: object;
+  description: string;
+};
+
+export default class APHostedConfig extends appconfig.CfnHostedConfigurationVersion {
+  constructor(scope: Construct, props: APHostedConfigProps) {
+    super(scope, 'APHostedConfig', {
+      applicationId: props.appId.ref,
+      configurationProfileId: props.profile.ref,
+      content: JSON.stringify(props.content),
+      contentType: 'application/json',
+      description: props.description,
+    });
+  }
+}
+```
+
+And now we add it the stack file.
+
+```typescript
+import { Stack, StackProps, aws_appconfig as appconfig } from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import APApplication from './APApplication';
+import APEnvironment from './APEnvironment';
+import APConfigurationProfile from './APConfigurationProfile';
+import APHostedConfig from './APHostedConfig';
+
+export class AppConfigStack extends Stack {
+  private app: appconfig.CfnApplication;
+  constructor(scope: Construct, id: string, props?: StackProps) {
+    super(scope, id, props);
+
+    this.app = new APApplication(this, {
+      appId: 'My Cool Config',
+      appName: 'My Cool App',
+      description: 'My Cool Description',
+    });
+
+    const env = new APEnvironment(this, {
+      appId: this.app,
+      env: 'My Cool Env',
+    });
+
+    const configProfile = new APConfigurationProfile(this, {
+      appId: this.app,
+      locationUri: 'hosted',
+      name: 'My Cool Config Profile',
+    });
+
+    const theConfig = { key: 'value' };
+
+    const hostedConfig = new APHostedConfig(this, {
+      appId: this.app,
+      profile: configProfile,
+      content: theConfig,
+      description: 'My Cool Hosted config',
+    });
+  }
+}
+```
+
+Step 6: Create the deployment strategy for the AppConfig.
+
+A deployment strategy defines important criteria for rolling out your configuration to the designated targets. A deployment strategy includes: the overall duration required, a percentage of targets to receive the deployment during each interval, an algorithm that defines how percentage grows, and bake time.
+
+```typescript
+import { aws_appconfig as appconfig } from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+
+export type APCfnDeploymentStrategyProps = {
+  deploymentDurationInMinutes: number;
+  growthFactor: number;
+  name: string;
+  replicateTo: string;
+  description: string;
+  finalBakeTimeInMinutes: number;
+  growthType: string;
+};
+
+export default class APCfnDeploymentStrategy extends appconfig.CfnDeploymentStrategy {
+  constructor(scope: Construct, props: APCfnDeploymentStrategyProps) {
+    super(scope, 'APCfnDeploymentStrategy', {
+      deploymentDurationInMinutes: props.deploymentDurationInMinutes,
+      growthFactor: props.growthFactor,
+      name: props.name,
+      replicateTo: props.replicateTo,
+      description: props.description,
+      finalBakeTimeInMinutes: props.finalBakeTimeInMinutes,
+      growthType: props.growthType,
+    });
+  }
+}
+```
+
+And now we add it the stack file.
+
+```typescript
+import { Stack, StackProps, aws_appconfig as appconfig } from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import APApplication from './APApplication';
+import APEnvironment from './APEnvironment';
+import APConfigurationProfile from './APConfigurationProfile';
+import APHostedConfig from './APHostedConfig';
+import APDeploymentStrategy from './APDeploymentStrategy';
+
+export class AppConfigStack extends Stack {
+  private app: appconfig.CfnApplication;
+  constructor(scope: Construct, id: string, props?: StackProps) {
+    super(scope, id, props);
+
+    this.app = new APApplication(this, {
+      appId: 'My Cool Config',
+      appName: 'My Cool App',
+      description: 'My Cool Description',
+    });
+
+    const env = new APEnvironment(this, {
+      appId: this.app,
+      env: 'My Cool Env',
+    });
+
+    const configProfile = new APConfigurationProfile(this, {
+      appId: this.app,
+      locationUri: 'hosted',
+      name: 'My Cool Config Profile',
+    });
+
+    const theConfig = { key: 'value' };
+
+    const hostedConfig = new APHostedConfig(this, {
+      appId: this.app,
+      profile: configProfile,
+      content: theConfig,
+      description: 'My Cool Hosted config',
+    });
+
+    const deploymentStrategy = new APDeploymentStrategy(this, {
+      deploymentDurationInMinutes: 1,
+      growthFactor: 50,
+      name: 'Deployment strategy',
+      replicateTo: 'NONE',
+      description: 'My Cool Deployment Strategy for my domain',
+      finalBakeTimeInMinutes: 1,
+      growthType: 'LINEAR',
+    });
+  }
+}
+```
+
+Step 7: Create the deployment for the AppConfig.
+
+Ok, now the final step is to create the deployment for the AppConfig. This ties everything together.
+
+```typescript
+import { aws_appconfig as appconfig } from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+
+export type APDeploymentConfigProps = {
+  appId: appconfig.CfnApplication;
+  profile: appconfig.CfnConfigurationProfile;
+  hostedConfig: appconfig.CfnHostedConfigurationVersion;
+  deploymentStrategy: appconfig.CfnDeploymentStrategy;
+  environmentId: appconfig.CfnEnvironment;
+  description: string;
+};
+
+export default class APDeploymentConfig extends appconfig.CfnDeployment {
+  constructor(scope: Construct, props: APDeploymentConfigProps) {
+    super(scope, 'APDeploymentConfig', {
+      applicationId: props.appId.ref,
+      configurationProfileId: props.profile.ref,
+      configurationVersion: props.hostedConfig.ref,
+      deploymentStrategyId: props.deploymentStrategy.ref,
+      environmentId: props.environmentId.ref,
+      description: props.description,
+    });
+  }
+}
+```
+
+And now we add it the stack file.
+
+```typescript
+import { Stack, StackProps, aws_appconfig as appconfig } from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import APApplication from './APApplication';
+import APEnvironment from './APEnvironment';
+import APConfigurationProfile from './APConfigurationProfile';
+import APHostedConfig from './APHostedConfig';
+import APDeploymentStrategy from './APDeploymentStrategy';
+import APDeploymentConfig from './APDeploymentConfig';
+
+export class AppConfigStack extends Stack {
+  private app: appconfig.CfnApplication;
+  constructor(scope: Construct, id: string, props?: StackProps) {
+    super(scope, id, props);
+
+    this.app = new APApplication(this, {
+      appId: 'My Cool Config',
+      appName: 'My Cool App',
+      description: 'My Cool Description',
+    });
+
+    const env = new APEnvironment(this, {
+      appId: this.app,
+      env: 'My Cool Env',
+    });
+
+    const configProfile = new APConfigurationProfile(this, {
+      appId: this.app,
+      locationUri: 'hosted',
+      name: 'My Cool Config Profile',
+    });
+
+    const theConfig = { key: 'value' };
+
+    const hostedConfig = new APHostedConfig(this, {
+      appId: this.app,
+      profile: configProfile,
+      content: theConfig,
+      description: 'My Cool Hosted config',
+    });
+
+    const deploymentStrategy = new APDeploymentStrategy(this, {
+      deploymentDurationInMinutes: 1,
+      growthFactor: 50,
+      name: 'Deployment strategy',
+      replicateTo: 'NONE',
+      description: 'My Cool Deployment Strategy for my domain',
+      finalBakeTimeInMinutes: 1,
+      growthType: 'LINEAR',
+    });
+
+    const deployment = new APDeploymentConfig(this, {
+      appId: this.app,
+      profile: configProfile,
+      hostedConfig: hostedConfig,
+      deploymentStrategy: deploymentStrategy,
+      environmentId: env,
+      description: 'My Cool Deployment',
+    });
+  }
+}
+```
+
+Okay! Not lets deploy our changes and see what happens. In your terminal run the following command.
+
+```bash
+cdk deploy
+```
+
+Now if your deployment has completed successfully you should see something like this:
+
+```bash
+  ✅  AppConfigStack
+
+✨  Deployment time: 144.09s
+
+Stack ARN:arn:aws:cloudformation:my-az-goes-here:123456:stack/AppConfigStack/12345678
+
+✨  Total time: 151.25s
+```
+
+Now lets go to the AWS Console and check out our new AWS AppConfig. Select the Application `
+My Cool App` and then on `My Cool Config Profile`. You will see the config that you deployed. `{ key: "value" };`.
+
+I hope you enjoyed this article. Stay tuned for the next part in the series. We are going to add monitoring to our config deployments.
