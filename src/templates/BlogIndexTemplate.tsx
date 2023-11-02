@@ -94,10 +94,10 @@ const BlogIndexTemplate: React.FC<PageProps<Queries.BlogPost>> = ({
               <Link
                 to={prevPage}
                 rel="prev"
-                className="inline-flex items-center border-t-2 border-transparent pr-1 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
+                className="blogNav mt-2 relative inline-flex items-center rounded-md px-3 py-2 text-sm font-semibold text-gray-900"
               >
                 <ArrowLongLeftIcon
-                  className="mr-3 h-5 w-5 text-gray-400"
+                  className="mr-3 h-5 w-10 text-gray-900"
                   aria-hidden="true"
                 />
                 Previous Page
@@ -110,11 +110,11 @@ const BlogIndexTemplate: React.FC<PageProps<Queries.BlogPost>> = ({
               <Link
                 to={nextPage}
                 rel="next"
-                className="inline-flex items-center border-t-2 border-transparent pl-1 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
+                className="blogNav mt-2 relative inline-flex items-center rounded-md px-3 py-2 text-sm font-semibold text-gray-900"
               >
                 Next Page
                 <ArrowLongRightIcon
-                  className="ml-3 h-5 w-5 text-gray-400"
+                  className="mr-3 h-5 w-10 text-gray-900"
                   aria-hidden="true"
                 />
               </Link>
