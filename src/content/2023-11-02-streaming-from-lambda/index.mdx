@@ -1,0 +1,158 @@
+---
+date: 2023-11-02 01:00:00
+slug: streaming-from-lambda
+title: Streaming from your lambda function. A (relatively) new feature.
+author: Sean Kerr
+bannerImage: ../../images/future.png
+tags:
+  - AWS
+  - CDK
+  - Cloud
+---
+
+# Lambda response streaming
+
+Earlier this year the [AWS Lambda team](https://aws.amazon.com/blogs/compute/introducing-aws-lambda-response-streaming/) released a new feature that allows you to stream responses from your lambda function. This is a great feature that allows you to return a response to the client as soon as you have it, rather than waiting for the entire response to be generated.
+
+Traditionally, in request / response models, the response needs to be fully generated and buffered before it is returned to the client. This can make applications feel slow and unresponsive. With streaming responses, you can return the response as soon as you have it, and continue to stream the response to the client as it is generated.
+
+In this article we are going to deploy a lambda that streams content. We are going to be using the cdk for this.
+
+### Prerequisites
+
+1. You will need an AWS account for this article
+2. You'll need to have the AWS CDK installed globally
+3. Basic knowledge of the AWS CDK is assumed.
+
+### Creating the project
+
+Lets start off by creating a AWS CDK project.
+
+```bash
+cdk init --app lambda-streaming --language=typescript
+```
+
+Once you have the project created lets create the function. We are going to use the AWS [CDK Nodejs Library](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_lambda_nodejs-readme.html). The beauty of the Nodejs Function is that the bundling is done for you. In future articles we will dive into this but for now, we are just going to use this for our streaming lambda function.
+
+In the bin folder open the file `lambda-streaming-stack.ts` and add the following code.
+
+First we are going to create the function. Not just any function, a Nodejs function. This is a new construct that was released with the [CDK v2.0.0](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_lambda_nodejs-readme.html).
+
+This construct allows you to create a lambda function using Nodejs. It will automatically bundle your code and add it to the lambda function. The reason I'm using this, is because it will automatically bundle the code for me. In future articles we will dive into how this works but, essentially it uses [esbuild](https://esbuild.github.io/) and [Docker](https://www.docker.com/) to do the bundling.
+
+```typescript
+const fn = new Nodejs.NodejsFunction(this, 'MyFunction', {
+  entry: path.join(__dirname, '..', 'index.ts'),
+  handler: 'index.handler',
+});
+```
+
+Next, we are going to add a function URL for invoking the function.
+
+Note: I'm not using and auth type here. This is just for demo purposes. You should always use IAM authentication.
+
+```typescript
+fn.addFunctionUrl({
+  authType: lambda.FunctionUrlAuthType.NONE, - `Don't do this in production`
+  invokeMode: lambda.InvokeMode.RESPONSE_STREAM,
+});
+```
+
+Next lets add some outputs so we can see the function URL and the function ARN.
+
+```typescript
+new CfnOutput(this, 'Function ARN', {
+  value: fn.functionArn,
+});
+
+new CfnOutput(this, 'Function URL', {
+  value: fnUrl.url,
+});
+```
+
+Lastly we are going to add the function. I've just added in the root of the project for the sake of this demonstration. You would normally have a proper folder structure for your project.
+
+```typescript
+const util = require('util');
+const stream = require('stream');
+const { Readable } = stream;
+const pipeline = util.promisify(stream.pipeline);
+
+const AWS = require('aws-sdk');
+AWS.config.update({ region: process.env.AWS_REGION });
+const s3 = new AWS.S3();
+
+// @ts-ignore
+export const handler = awslambda.streamifyResponse(
+  async (event: any, responseStream: any, _context: any) => {
+    const requestStream = Readable.from(
+      Buffer.from(new Array(1024 * 1024).join('🚗')),
+    );
+    await pipeline(requestStream, responseStream);
+  },
+);
+```
+
+You can read more about lambda streaming [here](https://docs.aws.amazon.com/lambda/latest/dg/configuration-response-streaming.html).
+
+Okay, before we deploy our function lets see if we can generate a cloudformation template.
+
+Run the following command.
+
+```bash
+cdk synth
+```
+
+You should see the template that is generated. Search for the value `AWS::Lambda::Url`. You will see the cloudformation values that have been generated. Note the `InvokeMode` and `AuthType` values.
+
+````json
+
+```json
+"MyFunctionFunctionUrlxxxxx": {
+   "Type": "AWS::Lambda::Url",
+   "Properties": {
+    "AuthType": "NONE",
+    "InvokeMode": "RESPONSE_STREAM",
+    "TargetFunctionArn": {
+     "Fn::GetAtt": [
+      "MyFunctionxxx",
+      "Arn"
+     ]
+    }
+   },
+````
+
+Alright lets deploy our stack.
+
+```bash
+cdk deploy
+```
+
+Once the stack has been deployed, you should see the function URL in the output. Lets describe the stack.
+
+Run the command below and look for the `Function URL` value in the response.
+
+```bash
+aws cloudformation describe-stacks --stack-name xxxx
+```
+
+You will see something like this:
+
+```json
+{
+  "OutputKey": "FunctionURL",
+  "OutputValue": "https://yai2xeixdath7cmea4lj63tynu0lhwis.lambda-url.ap-southeast-2.on.aws/"
+}
+```
+
+Lets invoke the function. Take the URL from the output and run the following command.
+
+```bash
+
+curl -v 'https://yai2xeixdath7cmea4lj63tynu0lhwis.lambda-url.ap-southeast-2.on.aws/'
+
+```
+
+You should see a response with 🚗 streaming across your terminal.
+
+I hope that you have enjoyed this article. If you're wanting to see the code, you can find it [here](https://github.com/seanrkerr/personal-blog/tree/main/lambda-streaming).
