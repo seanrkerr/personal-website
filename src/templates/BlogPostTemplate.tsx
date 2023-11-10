@@ -19,7 +19,7 @@ const BlogPostTemplate: React.FC<PageProps<Queries.BlogPost>> = ({
       <BlogLayout>
         <div className="pt-8 bg-white px-6 py-32 lg:px-8">
           <a
-            href="/blog"
+            href="/blog/1/"
             className="blogNav mb-2 relative inline-flex items-center rounded-md px-3 py-2 text-sm font-semibold text-rose-900"
           >
             <svg
@@ -81,7 +81,7 @@ const BlogPostTemplate: React.FC<PageProps<Queries.BlogPost>> = ({
           </article>
           <hr className="mt-2" />
           <a
-            href="/blog"
+            href="/blog/1/"
             className="blogNav mt-2 relative inline-flex items-center rounded-md px-3 py-2 text-sm font-semibold text-gray-900"
           >
             <svg
