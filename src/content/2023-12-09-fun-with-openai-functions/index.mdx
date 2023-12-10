@@ -1,0 +1,386 @@
+---
+date: 2023-12-09 01:00:00
+slug: fun-with-openai-functions
+title: Fun with OpenAI Functions
+author: Sean Kerr
+bannerImage: ../../images/mountains.png
+tags:
+  - AI
+  - Nodejs
+---
+
+# Introduction
+
+If you have been living under a rock, you may not have heard about [OpenAI ChatGPT](https://openai.com/). You can read about it in your own time. In this article we are going to explore functions.
+
+### Prerequisites
+
+1. An OpenAI login and with a payed tier account [OpenAI ChatGPT](https://openai.com/)
+2. You'll need to create an api key [OpenAI ChatGPT](https://platform.openai.com/api-keys)
+3. Nodejs installed on your machine [Nodejs](https://nodejs.org)
+4. Basic knowledge of Javascript
+
+### What are functions in OpenAI?
+
+Functions allow you to get back structured data from the model. Some common use cases are:
+
+- Summarize a text or convert text
+- extracting structured data from text
+
+The steps to use functions are:
+
+1. Call OpenAI with the user query and a set of functions defined.
+2. The model can choose to call one or more functions; if so, the content will be a stringified JSON object adhering to your custom schema (note: the model may [hallucinate](https://cloud.google.com/discover/what-are-ai-hallucinations) parameters).
+3. Parse the string into JSON in your code, and call your function with the provided arguments if they exist.
+4. Call OpenAI again by appending the function response as a new message in the messages array, and let OpenAI summarize the results back to us.
+
+### What are we going to build?
+
+We are going to build a small script that uses an OpenAI function to return your location and weather, then based on this information, it will return a response with activities that you can do in that area.
+
+### Let's get started
+
+Make a new folder on your machine.
+
+```bash
+mkdir openai-functions
+```
+
+Now lets use a project template from [Create react app](https://create-react-app.dev/). Lets create the project following the command below.
+
+```bash
+npx create-react-app openai-functions
+```
+
+Ensure that you change into the folder you just created. Run the project to test using the commands on the screen.
+
+```bash
+Success! Created stream-test at /Users/xxx/openai-functions
+Inside that directory, you can run several commands:
+
+  npm start
+    Starts the development server.
+
+  npm run build
+    Bundles the app into static files for production.
+
+  npm test
+    Starts the test runner.
+
+  npm run eject
+    Removes this tool and copies build dependencies, configuration files
+    and scripts into the app directory. If you do this, you can’t go back!
+
+We suggest that you begin by typing:
+
+  cd stream-test
+  npm start
+
+Happy hacking!
+```
+
+If everything has worked, you should see a new browser window open with the react app running.
+
+Ok. Now that you have a react app running, exit from the command `ctrl+C` and then we need to install the OpenAi libraries.
+
+Open the project folder in your terminal lets install the OpenAI package.
+
+```bash
+npm install openai
+```
+
+### Creating our application
+
+Note: For this article we are going to use modify the code in the top level of the project. This is for demonstration purposes only and should not be used in a production application.
+
+Now lets import the OpenAI package into our project. Open the file `src/App.js` and add the following line to the top of the file.
+
+```javascript
+import openai from 'openai';
+```
+
+Now lets add our OpenAI api key to the project. Open the file `src/App.js` and add the following line to the top of the file.
+
+```javascript
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+  dangerouslyAllowBrowser: true,
+});
+```
+
+A note on the `dangerouslyAllowBrowser` flag. This is required to allow the OpenAI package to run in the browser. This is not recommended for production applications.
+
+### Creating our functions
+
+Next we are going to create our functions. The first one, `getCurrentLocation` will return the location of the user, we will use the [IpAPI](https://ipapi.co) api to get the location.
+
+```javascript
+async function getCurrentLocation() {
+  const response = await fetch('https://ipapi.co/json/');
+  const locationData = await response.json();
+  return locationData;
+}
+```
+
+The second function, `getCurrentWeather` will return the weather for the location of the user. We will use the [Open-Meteo](https://open-meteo.com/) api to get the weather.
+
+```javascript
+async function getCurrentWeather(latitude, longitude) {
+  const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=apparent_temperature`;
+  const response = await fetch(url);
+  const weatherData = await response.json();
+  return weatherData;
+}
+```
+
+### Describing our functions
+
+For OpenAI to understand our functions, we need to describe them. We do this by creating a schema. Still in the same file `App.js` add the following code.
+
+In the schema we give 3 values, name, description and parameters. The name and description are self explanatory. The parameters are the values that we will pass to the function. In our case we will pass the latitude and longitude to the `getCurrentWeather` function.
+
+```javascript
+const functionDefinitions = [
+  {
+    name: 'getCurrentWeather',
+    description: 'Get the current weather in a given location',
+    parameters: {
+      type: 'object',
+      properties: {
+        longitude: {
+          type: 'string',
+        },
+        latitude: {
+          type: 'string',
+        },
+      },
+      required: ['longitude', 'latitude'],
+    },
+  },
+  {
+    name: 'getCurrentLocation',
+    description: "Get the user's location based on their IP address",
+    parameters: {
+      type: 'object',
+      properties: {},
+    },
+  },
+];
+```
+
+### Creating our prompt
+
+```javascript
+const messages = [
+  {
+    role: 'system',
+    content:
+      'You are a helpful assistant. Only use the functions you have been provided with.',
+  },
+];
+```
+
+### Create the invokeAgent function
+
+We are now ready to build the logic of our app, which lives in the invokeAgent function. It is asynchronous and takes one argument for the userInput.
+
+We start adding the userInput to the messages array using the push command on the array. This time, we set the role to `user`, so that OpenAI knows that this is the input from the user.
+
+```javascript
+async function invokeAgent(userInput) {
+  messages.push([
+    {
+      role: 'user',
+      content: userInput,
+    },
+  ]);
+  const response = await openai.chat.completions.create({
+    model: 'gpt-4-1106-preview',
+    messages: messages,
+    functions: functionDefinitions,
+  });
+  console.log(response);
+}
+```
+
+In this function above we call the OpenAI api to get a response. We pass the model, messages and functions to the api using the completions method of the OpenAI library. The model is the model that we want to use, in this case we are using the `gpt-4-1106-preview` model, which at the time of writing is the latest.
+
+### Running what we have so far
+
+Add the following code inside `function App() {` in the `src/App.js` file.
+
+```javascript
+invokeAgent('Where am I located right now?');
+```
+
+If the project runs successfully you should see the following output in the console.
+
+```javascript
+{
+    id: "chatcmpl-xxxxx",
+    object: "chat.completion",
+    created: 1692833838,
+    model: "gpt-4-1106-preview",
+    choices: [{
+        index: 0,
+        message: {
+            role: "assistant",
+            content: null,
+            function_call: {
+                name: "getLocation", // The function OpenAI wants us to call
+                arguments: "{}"
+            }
+        },
+        finish_reason: "function_call" // OpenAI telling us when to call the function
+    }],
+    usage: {
+        prompt_tokens: 134,
+        completion_tokens: 6,
+        total_tokens: 140
+    }
+}
+```
+
+OpenAI will tell us when to call the function by setting the `finish_reason` to `function_call`. The name of the function will be in the response `response.choices[0].message.function_call.name`
+
+Next we can add the available functions to an array.
+
+```javascript
+const availableFunctions = {
+  getCurrentWeather,
+  getCurrentLocation,
+};
+```
+
+And then we need to handle the function call once OpenAI tells us to call it. In the code below, we are getting the response of type function back from OpenAI. We need to parse the response and then call it before passing the result back to OpenAI. We do this below.
+
+```javascript
+const { finish_reason, message } = response.choices[0];
+
+if (finish_reason === 'function_call') {
+  const functionName = message.function_call.name;
+  const functionToCall = availableFunctions[functionName];
+  const functionArgs = JSON.parse(message.function_call.arguments);
+  const functionArgsArr = Object.values(functionArgs);
+  const functionResponse = await functionToCall.apply(null, functionArgsArr);
+  console.log(functionResponse);
+}
+```
+
+Now if you start and run the project again can see the output
+
+```javascript
+invokeAgent('Where am I located right now?');
+```
+
+You will see the following output:
+
+```javascript
+{
+"latitude": -3xxxx,
+"longitude": 1xxxxx,
+"generationtime_ms": 0.07295608520507812,
+"utc_offset_seconds": 0,
+"timezone": "GMT",
+"timezone_abbreviation": "GMT",
+"elevation": 667,
+"hourly_units": {
+"time": "iso8601",
+"apparent_temperature": "°C"
+},
+"hourly": {
+"time": [
+"2023-12-09T00:00",
+            "2023-12-15T21:00",
+            "2023-12-15T22:00",
+            "2023-12-15T23:00"
+        ],
+        "apparent_temperature": [
+            16.2,
+            18.2,
+            20.9
+        ]
+    }
+}
+```
+
+The output will contain the location data and temperature. Next, we need to add this data to the messages array so that OpenAI can tell us what to do next.
+
+```javascript
+messages.push({
+  role: 'function',
+  name: functionName,
+  content: `The result of the last function was this: ${JSON.stringify(
+    functionResponse,
+  )}
+  `,
+});
+```
+
+We change the role to function to tell OpenAI that this row in the messages array contains the result of a function call. We will need to send this new value to OpenAI with the updated messages array. We can do this in a number of ways, lets try a loop here.
+
+```javascript
+for (let i = 0; i < 5; i++) {
+  const response = await openai.chat.completions.create({
+    model: 'gpt-4',
+    messages: messages,
+    functions: functionDefinitions,
+  });
+  const { finish_reason, message } = response.choices[0];
+
+  if (finish_reason === 'function_call') {
+    const functionName = message.function_call.name;
+    const functionToCall = availableFunctions[functionName];
+    const functionArgs = JSON.parse(message.function_call.arguments);
+    const functionArgsArr = Object.values(functionArgs);
+    const functionResponse = await functionToCall.apply(null, functionArgsArr);
+
+    messages.push({
+      role: 'function',
+      name: functionName,
+      content: `
+          The result of the last function was this: ${JSON.stringify(
+            functionResponse,
+          )}
+          `,
+    });
+  } else if (finish_reason === 'stop') {
+    messages.push(message);
+    return message.content;
+  }
+}
+return 'The maximum number of iterations has been met without a suitable answer. Please try again with a more specific input.';
+```
+
+OpenAI will return a value of `stop` when it has finished. We can use this to break out of the loop and return the final message.
+
+### Finishing touches
+
+Lets update our prompt to get the list of activities that I can do based on the current location and weather.
+
+```javascript
+const response = await invokeAgent(
+  'Please suggest some activities based on my location and the current weather.',
+);
+console.log(response);
+```
+
+Now our list of activities is as follows:
+
+```text
+response: Based on your location in Canberra, Australia, and the current temperature of 27.9°C, here are some activities you might consider:
+
+1. Take a walk around Lake Burley Griffin - The weather is perfect for a leisurely stroll around this iconic Canberra spot.
+
+2. Visit the National Gallery of Australia - If it gets too hot outside, you can explore culture and art in air-conditioned comfort.
+
+3. Grab a picnic and head to the Australian National Botanic Gardens - Perfect place to relax, and you can take advantage of the great weather.
+
+4. Cycling - Canberra's numerous bike paths provide a great way to explore the city.
+
+Remember to stay hydrated and wear adequate sun protection!
+```
+
+As you can see, we have a list of activities that we can do based on our location and the weather. Its worth noting that this is a very simple example. We are using a public model and is trained from public data. The real power of this will come when we are using models trained on our own data.
+
+I hope you enjoyed this article. The code for this article can be found [here](https://github.com/seanrkerr/personal-blog/tree/main/open-ai-functions)
