@@ -31,17 +31,22 @@ const headings = [
 
 type HeroProps = {
   title?: string;
+  layoutShim: string;
 };
 
-const Hero: React.FC<HeroProps> = function ({ title }) {
+const Hero: React.FC<HeroProps> = function ({ title, layoutShim }) {
   const router = ``;
-
   return (
     <>
       <h1 className="relative sm:absolute sm:top-20 md:absolute md:top-24 lg:absolute lg:top-24 pl-4 sm:pl-8 lg:pl-64 z-10 text-2xl top-4 sm:text-4xl md:text-4xl lg:text-4xl tracking-tight text-white">
         {title}
       </h1>
-      <div className="relative md:pb-2 sm:pb-2 bg-gray-800 -mt-16 sm:mt-0">
+      <div
+        className={`relative md:pb-2 sm:pb-2 bg-gray-800 ${
+          layoutShim === `true` ? `-mt-8` : `-mt-16`
+        } sm:mt-0`}
+        // className="relative md:pb-2 sm:pb-2 bg-gray-800  -mt-16 sm:mt-0"
+      >
         <div className="absolute inset-0">
           <StaticImage
             className="w-full h-full object-cover"

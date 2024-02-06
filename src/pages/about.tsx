@@ -5,7 +5,7 @@ export default function About() {
   return (
     <>
       <Seo title="About Me" pageName="About Me" />
-      <Layout title="About Me">
+      <Layout title="About Me" layoutShim="true">
         <div className="grid grid-cols-1 gap-y-20 lg:grid-cols-1 lg:gap-y-0 lg:gap-x-8 relative -mt-32 max-w-8xl mx-auto pt-8 md:pt-26 relative z-10 md:pb-12 pb-32 px-4 sm:px-6 lg:px-8 lg:w-9/12">
           <div className="flex flex-row bg-white rounded-2xl shadow-xl mt-8 h-full">
             <div className="flex-1 relative pt-8 px-12 pb-8 md:px-8">
