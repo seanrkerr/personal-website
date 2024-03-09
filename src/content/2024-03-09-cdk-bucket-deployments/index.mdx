@@ -1,0 +1,126 @@
+---
+date: 2024-03-03 01:00:00
+slug: cdk-bucket-deployments
+title: A look at the CDK bucket deployment construct
+author: Sean Kerr
+bannerImage: ../../images/futuristic_room.png
+tags:
+  - CDK
+  - AWS
+  - Cloud
+---
+
+# Introduction
+
+Once apon a time, deploying a web app to an s3 bucket was a little more tricky. You either had to create a bash script and then sync to the bucket or use one of the myriad of [packages](https://www.npmjs.com/search?q=s3%20deployment) out there.
+
+### Prerequisites
+
+1. An AWS account
+2. A basic understanding of the AWS CDK
+
+### Creating the project
+
+At this point feel free to intialise a new cdk project. Ensure that you have bootstrapped your account and the project is ready to go.
+
+### S3 Deployment Construct Library
+
+This construct library allows you to populate an s3 bucket from a local .zip folder or you can do this from another s3 bucket.
+
+```typescript
+const websiteBucket = new s3.Bucket(this, 'WebBucket', {
+  websiteIndexDocument: 'index.html',
+  publicReadAccess: true,
+});
+
+new s3deploy.BucketDeployment(this, 'DeployWebsite', {
+  sources: [s3deploy.Source.asset('./dist')],
+  destinationBucket: WebBucket,
+});
+```
+
+Lets go through what is happening here.
+
+- Upon deployment of the stack, whether it be through cdk deploy or CI/CD pipeline, the files from the local website-dist folder will be compressed and transferred to an assets bucket. In the case of multiple sources, each will be uploaded separately to the bucket.
+- The BucketDeployment construct generates a unique CloudFormation resource labeled Custom::CDKBucketDeployment within the template. It designates the source bucket/key to direct to the assets bucket.
+- The specialized tool acquires the .zip file, unzips it, and then performs an aws s3 sync operation with the --delete flag on the target bucket (referred to as webBucket in this instance). If there are multiple sources, they are fetched and combined before the deployment process takes place.
+
+### Referencing the bucket
+
+When making a reference to the bucket that has been populated within another component reliant on the existence of the files, it is important to utilize deployment.deployedBucket. By doing so, it guarantees that the deployment of the bucket is completed before the creation of the resource that depends on it.
+
+```typescript
+declare const websiteBucket: s3.Bucket;
+
+const deployment = new s3deploy.BucketDeployment(this, 'WebsiteDeploy', {
+  sources: [s3deploy.Source.asset(path.join(__dirname, 'website-folder'))],
+  destinationBucket: websiteBucket,
+});
+
+new ConstructThatReadsFromTheBucket(this, 'ConsumerOfBucket', {
+  bucket: deployment.deployedBucket,
+});
+```
+
+It's possible to add multiple sources to the deployment.
+
+```typescript
+deployment.addSource(s3deploy.Source.asset('./some-other-asset'));
+```
+
+### Sources
+
+There a a few differnet supported sources:
+
+- Local .zip file: s3deploy.Source.asset('/path-to-local/file.zip')
+- Local directory: s3deploy.Source.asset('/path-to-local/directory')
+- Some other bucket: s3deploy.Source.bucket(bucket, zipObjectKey)
+- String data: s3deploy.Source.data('object-key.txt', 'hello, world!')
+- JSON data: s3deploy.Source.jsonData('object-key.json', `{ json: 'object' }`)
+- YAML data: s3deploy.Source.yamlData('object-key.yaml', `{ yaml: 'object' }`)
+
+The last three options support deploy time values. Deploy time values (as the name suggests) are values that are resolved at deploy time. You can only use a subset of the cloudformation functions for this.
+
+Deploy time values are outside the bounds of this article but you can read more about them [here](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3_deployment-readme.html#data-with-deploy-time-values).
+
+### Security
+
+The Construct is specifically designed for securely deploying zip files obtained from reputable sources. It is recommended to use directories packaged by the CDK CLI, as they are considered safe when utilizing Source.asset() on a directory.
+
+However, if you opt to reference a zip file through Source.asset() or Source.bucket(), exercise caution and ensure that you trust the file in question. Utilizing zips from unverified sources could potentially lead to the execution of malicious code within the Lambda Function associated with the module, granting unauthorized access to read or write files in the S3 bucket.
+
+It is paramount to prioritize security and diligently vet the sources of all zip files used in deployment processes.
+
+### Cloudfront settings
+
+Another pretty nice feature is Cloudfront invalidation. This is a great feature and allows you to complete the invalidation after the deployment. Very cool.
+
+```typescript
+import * as cloudfront from 'aws-cdk-lib/aws-cloudfront';
+import * as origins from 'aws-cdk-lib/aws-cloudfront-origins';
+
+const bucket = new s3.Bucket(this, 'DestinationBucket');
+
+const distribution = new cloudfront.Distribution(this, 'CfDistribution', {
+  defaultBehavior: { origin: new origins.S3Origin(bucket) },
+});
+
+new s3deploy.BucketDeployment(this, 'DeployWithInvalidation', {
+  sources: [s3deploy.Source.asset('./dist')],
+  destinationBucket: bucket,
+  distribution,
+  distributionPaths: ['/images/*.png'],
+});
+```
+
+### Other useful settings
+
+`Prune` - This setting is used to remove files from the destination bucket that are not present in the source. This is useful for ensuring that the bucket is always in sync with the source.
+
+`Exclude and Include Filters` - These settings are used to filter out files that you do not want to include in the deployment. This is useful for excluding files such as .DS_Store or Thumbs.db or HTML.
+
+`Objects metadata` - With this setting you can add two types of metadata. System defined metadata such as `--cache-control` as an example. User defined metatdata is data that is added and not used by S3.
+
+`Signed Content Payloads` - This setting is used to sign the content payload of the request.
+
+I hope that you enjoyed the article. This was a brief introduction to one of the most useful constructs in the CDK arsenal. You can read more about it here: [AWS CDK Bucket Deployment](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3_deployment-readme.html).
