@@ -1,7 +1,7 @@
 import Layout from '@/components/Layout';
 import LoadingComp from '@/components/LoadingComp';
 import PortfolioService from '@/services/PortfolioService';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import PortfolioTile from '@/components/PortfolioTile';
 import ErrorComp from '@/components/ErrorComp';
 import Seo from '@/components/Seo';
@@ -14,6 +14,7 @@ export default function Portfolio() {
   const [moreRows, setMoreRows] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [hasError, setHasError] = useState(false);
+  const seedRef = useRef(Math.floor(Math.random() * 100000));
 
   useEffect(() => {
     const portfolio = new PortfolioService();
@@ -21,7 +22,7 @@ export default function Portfolio() {
 
     const fetchData = async () => {
       return await portfolio.get(
-        `${process.env.GATSBY_RESTURL_PORTFOLIO}/portfolio?start=${currentPage}&limit=6`,
+        `${process.env.GATSBY_RESTURL_PORTFOLIO}/portfolio?start=${currentPage}&limit=6&randomize=true&seed=${seedRef.current}`,
       );
     };
     fetchData()
