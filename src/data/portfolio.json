@@ -1,0 +1,202 @@
+[
+  {
+    "id": "v2ai",
+    "company": "V2.ai",
+    "role": "Senior Software Engineer",
+    "description": "Technical lead on rapid AI prototyping for enterprise clients. Built generative AI features for a major financial client — a RAG-based conversational interface and dynamic UI generation from data analysis. Also engineered an AI exam-marker for an eLearning company that outperformed human accuracy. Mostly serverless Python and .NET on AWS, plus a full React/Vite rebuild of a business-critical multilingual app along the way.",
+    "tags": ["Generative AI", "RAG", "React", "Python", "AWS Serverless"],
+    "link": "https://v2.ai/",
+    "complete": true,
+    "type": "contract"
+  },
+  {
+    "id": "westpac",
+    "company": "Westpac",
+    "role": "Senior Software Engineer",
+    "description": "Loved this project — working in such a large organisation on a transformation piece is always a challenge, and throwing multiple brands into the mix made it more interesting. A chance to build not just a UI framework, but a customer-centred design philosophy from the ground up for one of Australia's biggest banks.",
+    "tags": ["UI Framework", "Design System", "Banking", "Multi-brand"],
+    "link": "https://gel.westpacgroup.com.au",
+    "complete": true,
+    "type": "contract"
+  },
+  {
+    "id": "rest-preferences",
+    "company": "REST Super",
+    "role": "Senior Software Engineer",
+    "description": "REST wanted to lift member engagement. Completely greenfield setup using serverless, event-driven architecture with lots of integration. I love starting a new project where I get a say in how it should be designed and built — very satisfying. REST is a great company too, awesome people and a truly great business to work for.",
+    "tags": ["Serverless", "Event-Driven", "Greenfield", "Integration"],
+    "link": "https://www.rest.com.au",
+    "complete": true,
+    "type": "contract"
+  },
+  {
+    "id": "rest-supermatch",
+    "company": "REST Super — Supermatch",
+    "role": "Senior Software Engineer",
+    "description": "Built a complete backend that let users of the REST app search, combine and rollover their super. Created services around KYC, MFA, OTP and a bunch of others. I got to work mostly on the security side which I enjoyed immensely.",
+    "tags": ["Security", "KYC", "MFA", "Backend Services"],
+    "link": "https://rest.com.au/app",
+    "complete": true,
+    "type": "contract"
+  },
+  {
+    "id": "austrac",
+    "company": "AUSTRAC",
+    "role": "Lead Engineer",
+    "description": "An unlikely candidate for a design system. As part of a team I led the direction, creation and implementation of this piece of work. The guide has a nice cross-section of components to choose from — and takes it further with block-level implementations.",
+    "tags": ["Design System", "Components", "Government", "Tech Lead"],
+    "link": "http://componentguide.opendev.engineering",
+    "complete": true,
+    "type": "contract"
+  },
+  {
+    "id": "stgeorge",
+    "company": "St.George / Westpac",
+    "role": "Senior Software Engineer",
+    "description": "Built prototypes for the St.George banking mobile app, the St.George tablet app, and the Westpac payments app. Focused on micro-interactions and the user experience — the end result was some really nice apps.",
+    "tags": ["Mobile Banking", "Prototyping", "Micro-interactions", "UX"],
+    "link": "https://apps.apple.com/au/app/st-george-mobile-banking/id294380705",
+    "complete": true,
+    "type": "contract"
+  },
+  {
+    "id": "macquarie",
+    "company": "Macquarie",
+    "role": "Senior Software Engineer",
+    "description": "A few years working with Macquarie Bank on a long list of applications — too many to list. This particular one was for one of the Korean infrastructure funds.",
+    "tags": ["Banking", "Financial Services", "Enterprise"],
+    "link": "https://www.macquarie.com/",
+    "complete": true,
+    "type": "contract"
+  },
+  {
+    "id": "amaysim",
+    "company": "amaysim",
+    "role": "Senior Software Engineer",
+    "description": "A great company to work for. Hired to help build a new business — exciting from day one. My first React project (and they still hired me). We built a small component library and a completely serverless business in three months. The ROI on this was massive.",
+    "tags": ["React", "Serverless", "Greenfield", "Component Library"],
+    "link": "https://components.production-sls.amaysim.net/",
+    "complete": true,
+    "type": "contract"
+  },
+  {
+    "id": "amaysim-devices",
+    "company": "amaysim — Device Store",
+    "role": "Senior Software Engineer",
+    "description": "amaysim selling iPhones. Our team was mostly responsible for the UI side. Lots of GraphQL and React.",
+    "tags": ["React", "GraphQL", "E-commerce"],
+    "link": "https://www.amaysim.com.au/plans/devices/apple",
+    "complete": true,
+    "type": "contract"
+  },
+  {
+    "id": "amaysim-raf",
+    "company": "amaysim — Refer a Friend",
+    "role": "Senior Software Engineer",
+    "description": "Mostly UI work for this one. A nice vibrant colour scheme — refer a friend, get a credit on your account, your friend gets one too.",
+    "tags": ["React", "UI", "Referral"],
+    "link": "https://www.amaysim.com.au/friend-referral",
+    "complete": true,
+    "type": "contract"
+  },
+  {
+    "id": "rfs",
+    "company": "Rural Fire Service",
+    "role": "Tech Lead",
+    "description": "My first government role. Led a team on an Angular project to build an application to manage significant events. Initially for NSW Police — it's now used by multiple agencies.",
+    "tags": ["Angular", "Government", "Tech Lead", "Emergency Services"],
+    "link": "https://emos.nsw.gov.au/",
+    "complete": true,
+    "type": "contract"
+  },
+  {
+    "id": "toysrus",
+    "company": "Toys\"R\"Us",
+    "role": "Senior Software Engineer",
+    "description": "Content management system, online store, Google Maps integration. Launched at Christmas, also the 50th anniversary of Barbie. The site was getting a million users a month and hardly broke a sweat.",
+    "tags": ["CMS", "E-commerce", "Google Maps", "High Traffic"],
+    "link": "https://www.toysrus.com.au/",
+    "complete": true,
+    "type": "contract"
+  },
+  {
+    "id": "reboot",
+    "company": "Reboot (EN|JP)",
+    "role": "Senior Software Engineer",
+    "description": "Interesting project — the first multilingual build I'd done in ages.",
+    "tags": ["Multilingual", "i18n", "EN/JP"],
+    "link": "https://www.reboot-japan.com/",
+    "complete": true,
+    "type": "contract"
+  },
+  {
+    "id": "nrma",
+    "company": "NRMA",
+    "role": "Senior Software Engineer",
+    "description": "One of NRMA's first online forms — a massive new-platform build. Among the earliest projects in the company to emphasise UX, with customer testing and a fresh UI.",
+    "tags": ["UX", "Forms Platform", "Customer Testing", "React"],
+    "link": "",
+    "complete": true,
+    "type": "contract"
+  },
+  {
+    "id": "amp",
+    "company": "AMP",
+    "role": "Senior Software Engineer",
+    "description": "Joined as AMP started using Angular 2 in beta — a brave call at the time. By the time we shipped, the framework had matured and several apps were live in production. Components were mostly stateful, sometimes with their own services. A great engineering team and clear product ownership made the early bet pay off.",
+    "tags": ["Angular 2", "TypeScript", "Production", "Stateful Components"],
+    "link": "",
+    "complete": true,
+    "type": "contract"
+  },
+  {
+    "id": "livenews",
+    "company": "Livenews (Macquarie Radio)",
+    "role": "Lead Engineer",
+    "description": "Macquarie Radio Network's bid to compete with News Limited and Fairfax. Hundreds of thousands of users daily, live feeds, ads, weather — the full online news stack. My first lead role.",
+    "tags": ["News Platform", "Live Feeds", "High Traffic", "Tech Lead"],
+    "link": "",
+    "complete": true,
+    "type": "contract"
+  },
+  {
+    "id": "perpetual",
+    "company": "Perpetual Investments",
+    "role": "Analyst Programmer",
+    "description": "The Perpetual Investments website — one of the first industrial-strength web applications I had the pleasure of working on. Early experience shipping into a regulated financial environment.",
+    "tags": ["Financial Services", ".NET", "Enterprise Web", "Regulated"],
+    "link": "",
+    "complete": true,
+    "type": "contract"
+  },
+  {
+    "id": "floral-fruits",
+    "company": "Floral Fruits",
+    "role": "Software Engineer",
+    "description": "A small e-commerce site I built a very long time ago. The business has since been sold and has a new look and feel.",
+    "tags": ["E-commerce", "Small Project"],
+    "link": "",
+    "complete": true,
+    "type": "contract"
+  },
+  {
+    "id": "irrigation",
+    "company": "Irrigation Tradingpost",
+    "role": "Software Engineer",
+    "description": "A small e-commerce build for selling irrigation equipment, and one of my last .NET projects before moving fully to modern web. The business has since wound up.",
+    "tags": ["E-commerce", ".NET", "Small Project"],
+    "link": "",
+    "complete": true,
+    "type": "contract"
+  },
+  {
+    "id": "shopsmart",
+    "company": "Shopsmart",
+    "role": "Founder",
+    "description": "Long-running personal side project — domain purchased years ago, evolving as a blog, app, and whatever comes next.",
+    "tags": ["Side Project", "Personal"],
+    "link": "https://www.shopsmart.com.au",
+    "complete": true,
+    "type": "side-project"
+  }
+]
