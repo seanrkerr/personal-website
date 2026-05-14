@@ -340,6 +340,9 @@ body {
     grid-template-columns: 1fr;
     gap: 32px;
   }
+  .about-photo {
+    max-width: 140px;
+  }
 }
 
 .about-photo {
