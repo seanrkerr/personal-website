@@ -1,5 +1,5 @@
 import { Reveal } from './Reveal'
-import { ArrowRight, ArrowUpRight } from './Icons'
+import { ArrowUpRight } from './Icons'
 
 const workedWith = [
   { name: 'CBA', label: 'Commonwealth Bank', stat: 'v13-stat-1' },
@@ -66,17 +66,27 @@ export function Hero() {
 
         <Reveal delayMs={350}>
           <p className="mt-10 text-lg text-zinc-300 leading-relaxed max-w-2xl body-sans">
-            Senior full-stack engineer with a decade behind me. Currently building two AI businesses,
-            mentoring teams through the shift, and writing about what AI is actually doing to work.
+            A career shipping software for enterprise teams — now building two AI products, Saccade AI
+            and My Social Agent, and writing the engineer's read on what's real in AI vs what's just a
+            good demo.
+          </p>
+          <p className="mt-4 text-sm text-zinc-500 leading-relaxed max-w-2xl body-sans">
+            Honest, no-hype takes on AI for leaders — daily-ish on X.
           </p>
         </Reveal>
 
         <Reveal delayMs={500}>
           <div className="mt-10 flex flex-wrap items-center gap-3">
-            <a href="mailto:hello@seankerr.com" className="v13-cta-primary">
-              Get in touch
-              <ArrowRight className="w-4 h-4" />
+            <a
+              href="https://x.com/kerrsee"
+              target="_blank"
+              rel="noreferrer"
+              className="v13-cta-primary"
+            >
+              Follow on X
+              <ArrowUpRight className="w-4 h-4" />
             </a>
+            <a href="mailto:hello@seankerr.com" className="v13-cta-secondary">Get in touch</a>
             <a href="#work" className="v13-cta-secondary">View work</a>
           </div>
         </Reveal>
